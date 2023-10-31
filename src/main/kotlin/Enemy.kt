@@ -8,6 +8,8 @@ class HandGerät : EnemyAction ("Kara'Kesh", 60)
 class Zetnitika : EnemyAction ("Zat'ni katel",25)
 
 
+// Die möglichen Aktionen, die der Feind ausführen kann, werden in einer Liste gespeichert.
+// Diese Liste enthält Aktionen wie "Schlag" und "Stabwaffe" als vordefinierte Instanzen.
 open class Enemy(name: String, healthPoints: Int){
     private val actions = listOf(StabwaffenSchuss(),TacTac(),Cannon(),Schlag(),HandGerät(),Zetnitika())
     private val enemyName = name
