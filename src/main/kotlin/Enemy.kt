@@ -1,40 +1,40 @@
-import jdk.jfr.Enabled
+open class EnemyAction(val name:String,val damage:Int)
+class StabwaffenSchuss : EnemyAction ("Stabwaffen Schuss",25)
+class TacTac : EnemyAction("Tacluchnatagamuntoron",55)
+class Cannon : EnemyAction("Goa'uld Cannon",40)
 
-open class Enemy(name:String, healthPoints:Int) {
-
-
-    val baalActions:Map<String,Int> = mapOf(
-
-    )
-
-    val raActions:Map<String,Int> = mapOf(
-
-    )
-
-    val heruurActions:Map<String,Int> = mapOf(
+class Schlag : EnemyAction ("Schlag",15)
+class HandGerät : EnemyAction ("Kara'Kesh", 60)
+class Zetnitika : EnemyAction ("Zat'ni katel",25)
 
 
-    )
+open class Enemy(name: String, healthPoints: Int){
+    private val actions = listOf(StabwaffenSchuss(),TacTac(),Cannon(),Schlag(),HandGerät(),Zetnitika())
+    private val enemyName = name
 
-    val apophis:Enemy = Enemy("Apohis", 200)
-    val baal:Enemy = Enemy("Baal",225)
-    val ra:Enemy = Enemy("Ra",300)
-    val heruur:Enemy = Enemy("Heru´ur",220)
-
-
-    class Boss(name: String, healthPoints: Int): Enemy(name,healthPoints)
-
-
-
-    val apohisSpecial:Map<String, Int> = mapOf(
-
-    )
-
-    val anubis:Boss =Boss("Apohis",1500)
-
-    class Minion(name: String, healthPoints: Int) : Enemy(name, healthPoints)
-
-
-
-    val jaffa:Minion = Minion("Jaffa foot Soldier",150)
+    fun randomAction(): Int{
+        val randomAttacks = actions.random()
+        val actionName = randomAttacks.name
+        println("Der Feind greift mit $actionName an ")
+        return randomAttacks.damage
+    }
 }
+
+
+class footSoldier(name:String,healthPoints: Int) : Enemy(name,healthPoints)
+
+
+
+open class Boss(name: String, healthPoints: Int) : Enemy(name, healthPoints)
+
+
+class Minion(name: String, healthPoints: Int) : Boss(name, healthPoints)
+
+
+
+val jaffa: Minion = Minion("Jaffa foot Soldier", 150)
+
+val apophis: Enemy = Enemy("Apohis", 200)
+val baal: Enemy = Enemy("Baal", 225)
+val ra: Enemy = Enemy("Ra", 300)
+val heruur: Enemy = Enemy("Heru´ur", 220)
