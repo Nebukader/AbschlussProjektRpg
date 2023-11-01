@@ -10,7 +10,7 @@ class Zetnitika : EnemyAction ("Zat'ni katel",25)
 
 // Die möglichen Aktionen, die der Feind ausführen kann, werden in einer Liste gespeichert.
 // Diese Liste enthält Aktionen wie "Schlag" und "Stabwaffe" als vordefinierte Instanzen.
-open class Enemy(name: String, healthPoints: Int){
+open class Enemy(var name: String,var healthPoints: Int){
     private val actions = listOf(StabwaffenSchuss(),TacTac(),Cannon(),Schlag(),HandGerät(),Zetnitika())
     private val enemyName = name
 
@@ -20,18 +20,30 @@ open class Enemy(name: String, healthPoints: Int){
         println("Der Feind greift mit $actionName an ")
         return randomAttacks.damage
     }
+
+    open fun attackInfo(){
+        println("${name} holt zum Anrgriff aus")
+        println("${randomAction()}")
+    }
 }
 
+class FootSoldier(name:String,healthPoints: Int) : Enemy(name,healthPoints){
+    override fun attackInfo() {
+        super.attackInfo()
+    }
+}
 
-class footSoldier(name:String,healthPoints: Int) : Enemy(name,healthPoints)
+open class Boss(name: String, healthPoints: Int) : Enemy(name, healthPoints){
+    override fun attackInfo() {
+        super.attackInfo()
+    }
+}
 
-
-
-open class Boss(name: String, healthPoints: Int) : Enemy(name, healthPoints)
-
-
-class Minion(name: String, healthPoints: Int) : Boss(name, healthPoints)
-
+class Minion(name: String, healthPoints: Int) : Boss(name, healthPoints){
+    override fun attackInfo() {
+        super.attackInfo()
+    }
+}
 
 
 val jaffa: Minion = Minion("Jaffa foot Soldier", 150)
