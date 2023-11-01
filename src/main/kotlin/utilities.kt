@@ -5,6 +5,9 @@ fun actionsJack() {
     println("Bitte wählen sie eine Aktion aus")
     println("1 = P90- Maschinenpistole (15) Schaden")
     println("2 = Beretta 9mm (5) Schaden")
+    println("3 = Zat’nik’tel (25) Schaden")
+    println("4 = M60 Maschinengewehr")
+    println("5 = Granate (30) Schaden")
     val choice = readlnOrNull()?.toIntOrNull()
     when (choice) {
         1 -> {
@@ -54,6 +57,9 @@ fun actionsSamantha() {
     println("Bitte wählen sie eine Aktion aus")
     println("1 = P90- Maschinenpistole (15) Schaden")
     println("2 = G36 Maschinengewehr (25) Schaden")
+    println("3 = Kull Disruptor (22) Schaden")
+    println("4 = Goa`uld Handgerät (40) Schaden")
+    println("5 = Granate (30) Schaden")
     val choice = readlnOrNull()?.toIntOrNull()
     when (choice) {
         1 -> {
