@@ -25,7 +25,15 @@ open class Enemy(var name: String,var healthPoints: Int){
         println("${name} holt zum Anrgriff aus")
         println("${randomAction()}")
     }
+    open fun takeDamage(damage:Int){
+        healthPoints -=damage
+        if (healthPoints <= 0){
+            println("Der Feind ist tot")
+
+    }else
+        println("Der $name hat noch $healthPoints Lebenspunkte")
 }
+
 
 class FootSoldier(name:String,healthPoints: Int) : Enemy(name,healthPoints){
     override fun attackInfo() {
