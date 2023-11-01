@@ -1,6 +1,6 @@
 
 fun actionsJack() {
-    val jack = JackONeil
+    val jack = heroes[0]
     println("${jack.name} ist am Zug")
     println("Bitte wählen sie eine Aktion aus")
     println("1 = P90- Maschinenpistole (15) Schaden")
@@ -52,7 +52,7 @@ fun actionsJack() {
     }
 }
 fun actionsSamantha() {
-    val sam = samanthaCarter
+    val sam = heroes[1]
     println("${sam.name} ist am Zug")
     println("Bitte wählen sie eine Aktion aus")
     println("1 = P90- Maschinenpistole (15) Schaden")
@@ -66,7 +66,7 @@ fun actionsSamantha() {
             val weapon = "P90-Maschinenpistole"
             val damage = 15
             sam.action(weapon, damage)
-            println("Samantha Carter zielt mit ihrer $weapon auf den Feind und eröffnet das Feuer! Die Kugeln prasseln auf den Gegner nieder und verursachen $damage Schadenspunkte.")
+            println("${sam.name} zielt mit ihrer $weapon auf den Feind und eröffnet das Feuer! Die Kugeln prasseln auf den Gegner nieder und verursachen $damage Schadenspunkte.")
         }
         2 -> {
             val weapon = "G36 Maschinengewehr"
@@ -96,7 +96,7 @@ fun actionsSamantha() {
     }
 }
 fun actionsTealC() {
-    val tealC = tealC
+    val tealC = heroes[2]
     println("${tealC.name} ist am Zug")
     println("Bitte wählen sie eine Aktion aus")
     println("1 = Stabwaffe (35) Schaden")
