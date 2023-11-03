@@ -1,7 +1,14 @@
 fun gameplay(footSoldier: MutableList<FootSoldier>, heroes: MutableList<Hero>) {
+    var countRounds: Int = 1
     do {
-        println("Lass uns ein Spiel spielen, mal sehen wer gewinnt, SG-1 oder die Goa´Uld")
+        println("Die Runde beginnt Runde $countRounds")
         for (hero in heroes) {
+
+            //Die Schleife wird beendet so bald keine Soldaten mehr in der liste sind
+
+            if (footSoldier.isEmpty()) {
+                break
+            }
             val selectedFootSoldier = footSoldiers.random()
             val damage = when (hero) {
                 is Soldier -> actionsJack()
@@ -10,12 +17,19 @@ fun gameplay(footSoldier: MutableList<FootSoldier>, heroes: MutableList<Hero>) {
                 else -> 0
             }
             selectedFootSoldier.takeDamage(damage)
-            if (selectedFootSoldier.healthPoints <= 0)
+            if (selectedFootSoldier.healthPoints <= 0) {
                 println("${selectedFootSoldier.name} wurde bezwungen")
-            footSoldiers.remove(selectedFootSoldier)
+                footSoldiers.remove(selectedFootSoldier)
+            }
         }
-    }while (footSoldiers.isNotEmpty())
+        countRounds++
+    }while (footSoldiers.isNotEmpty() && countRounds <= 3) // Maximale Anzahl von Runden auf 3 begrenzen
+    if (footSoldier.isEmpty()){
+        println("SG-1 hat den Feind erfolgreich zurück geschlagen und zieht nun weiter")
+    }else
+        println("Die Übrig gebliebenen ${footSoldiers.size} Jaffa Krieger ergreifen die Flucht")
 }
+
 fun actionsJack(): Int {
     val jack = heroes[0]
     println("${jack.name} ist am Zug")
@@ -41,7 +55,39 @@ fun actionsJack(): Int {
             println("${jack.name} greift nach seiner $weapon und verursacht $damage Schadenspunkte")
             damage
         }
-        // Weitere Aktionen hier hinzufügen ...
+
+        3 -> {
+            //Wenn zeit ist 1 Schuss betäubt der feind kann keine Aktion ausführen / 2 Schuss macht schaden / 3 Schuss Kritisch
+            val weapon = "Zat’nik’tel"
+            val damage = 25
+            jack.action(weapon, damage)
+            println(
+                "Jack hat seit dem er das erste mal die $weapon in den Händen hielt, direkt ihren wert erkannt..der erste Schuss betäubt, der zweite schuss Tötet und der Dritte lässt die leiche verschwinden." +
+                        "Jack schießt auf den Feind und verursacht $damage Schadenspunkte"
+            )
+            println("${jack.name} greift nach seiner $weapon und verursacht $damage Schadenspunkte")
+            damage
+        }
+
+        4 -> {
+            val weapon = "M60 Maschinengewehr"
+            val damage = 12
+            jack.action(weapon, damage)
+            println("Jack greift nach seiner $weapon, das M60 Maschinengewehr, und eröffnet das Feuer auf den Feind.")
+            println("Das Maschinengewehr rattert, und Jack verursacht $damage Schadenspunkte.")
+            damage
+        }
+
+        5 -> {
+            val weapon = "Granate"
+            val damage = 30
+            jack.action(weapon, damage)
+            println(
+                "Jack zieht eine $weapon aus seinem Gürtel und wirft sie in Richtung des Feindes." +
+                        "Die Granate explodiert mit einem lauten Knall und verursacht einen massiven Schaden von $damage Punkten."
+            )
+            damage
+        }
 
         else -> {
             println("Ungültige Auswahl")
@@ -160,5 +206,5 @@ fun actionsTealC(): Int {
             0
         }
     }
-// wenn alles funktioniert noch Daniel mit einbauen
+
 }
