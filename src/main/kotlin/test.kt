@@ -1,7 +1,7 @@
 
 
 fun main() {
-
+    gameplay(footSoldiers,heroes)
     printInfoList(footSoldiers)
     printInfoList(heroes)
     println("#################")

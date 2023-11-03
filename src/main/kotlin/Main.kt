@@ -1,5 +1,5 @@
 //Heros
-
+val testJack = Soldier("Jack O Neil", 150,)
 val heroes:MutableList<Hero> = mutableListOf(
     Soldier("Jack O Neil", 150,),
     Scientist("Samantha Carter",125),
@@ -25,7 +25,8 @@ val footSoldiers:MutableList<FootSoldier> = mutableListOf(
 
 //Boss
 val BossBaal:Boss = Boss("Ba'al",500)
-
+val bossPlusMinion:MutableList<Enemy> = mutableListOf(
+    BossBaal)
 fun main() {
 
 }

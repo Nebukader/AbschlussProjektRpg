@@ -22,26 +22,24 @@ fun printInfoList(hero:MutableList<Hero>) {
 }
 class Soldier(name: String,healthPoints: Int):Hero(name,healthPoints) {
     override fun action(weaponName: String, damage: Int): Int {
-        return super.action(weaponName, damage)
+        return damage
     }
-
 }
 
 class Scientist(name: String,healthPoints: Int):Hero(name,healthPoints) {
-
     override fun action(weaponName: String, damage: Int): Int {
-        return super.action(weaponName, damage)
+        return damage
     }
 }
 
 class Jaffa(name: String,healthPoints: Int):Hero(name,healthPoints) {
     override fun action(weaponName: String, damage: Int): Int {
-        return super.action(weaponName, damage)
+        return damage
     }
 }
 
 class Archaeologists(name: String,healthPoints: Int):Hero(name,healthPoints) {
     override fun action( weaponName: String, damage: Int): Int {
-        return super.action( weaponName, damage)
+        return damage
     }
 }

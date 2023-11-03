@@ -52,10 +52,15 @@ open class Boss(name: String, healthPoints: Int) : Enemy(name, healthPoints){
         println("$name macht seinen Angriff")
         return randomAction(bossActions)
     }
+    fun summonLowHealth(){
+        if (healthPoints <-  healthPoints / 2){
+            bossPlusMinion.add(Minion("Kull Krieger",150))
+            println("Hahaha du dachtest schon du hast gewonnen, aber hier kommt mein Kull Krieger")
+        }
+    }
 }
 
 class Minion(name: String, healthPoints: Int) : Boss(name, healthPoints){
-
 
 }
 
