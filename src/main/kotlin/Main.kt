@@ -16,10 +16,10 @@ val jonas:Hero = Hero("Jonnas Quinn",125)
 val footSoldiers:MutableList<FootSoldier> = mutableListOf(
     FootSoldier("Jaffa Jotavod",80),
     FootSoldier("Jaffa Ak'noan",75),
-    FootSoldier("Jaffa Ak'noan",65),
-    FootSoldier("Jaffa Ak'noan",70))
+    FootSoldier("Jaffa Halvod",65),
+    FootSoldier("Jaffa Saba",70))
 
-
+val footSoldierActions = listOf(StabwaffenSchuss(), TacTac(), Cannon(), Schlag(), HandGerät(), Zetnitika())
 
 
 

@@ -22,6 +22,17 @@ fun gameplay(footSoldier: MutableList<FootSoldier>, heroes: MutableList<Hero>) {
                 footSoldiers.remove(selectedFootSoldier)
             }
         }
+        for ( soldier in footSoldiers){
+            var damageHero = soldier.randomAction(footSoldierActions)
+            heroes.random().takeDamage(damageHero)
+            for (hero in heroes)
+                if (hero.healthPoints <= 0){
+                    heroes.remove(hero)
+
+                //TODO Game Over wenn keine Helden mehr in liste sind !!!
+                }
+        }
+
         countRounds++
     }while (footSoldiers.isNotEmpty() && countRounds <= 3) // Maximale Anzahl von Runden auf 3 begrenzen
     if (footSoldier.isEmpty()){
@@ -29,7 +40,7 @@ fun gameplay(footSoldier: MutableList<FootSoldier>, heroes: MutableList<Hero>) {
     }else
         println("Die Übrig gebliebenen ${footSoldiers.size} Jaffa Krieger ergreifen die Flucht")
 }
-
+//TODO Rucksack mit Heilung einbauen ins Menü
 fun actionsJack(): Int {
     val jack = heroes[0]
     println("${jack.name} ist am Zug")
