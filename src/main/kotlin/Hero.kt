@@ -8,7 +8,6 @@ open class Hero(val name:String, var healthPoints:Int) {
     open fun takeDamage(damage: Int) {
         healthPoints -= damage
         if (healthPoints <= 0) {
-            println("Der Held ist tot")
 
         } else
             println("$name hat noch $healthPoints Lebenspunkte")

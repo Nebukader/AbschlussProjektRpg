@@ -1,46 +1,141 @@
-fun gameplay(footSoldier: MutableList<FootSoldier>, heroes: MutableList<Hero>) {
+fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>,boss:Boss) {
     var countRounds: Int = 1
-    do {
+
+    // Die Schleife läuft solange, wie noch Runden übrig sind und Fußsoldaten vorhanden sind
+    while (footSoldiers.isNotEmpty() && countRounds <= 3) {
         println("Die Runde beginnt Runde $countRounds")
+
+        // Schleife für die Helden
         for (hero in heroes) {
-
-            //Die Schleife wird beendet so bald keine Soldaten mehr in der liste sind
-
-            if (footSoldier.isEmpty()) {
+            // Die Schleife wird beendet, wenn keine Fußsoldaten mehr übrig sind
+            if (footSoldiers.isEmpty()) {
                 break
             }
+
+            // Zufällige Auswahl eines Fußsoldaten
             val selectedFootSoldier = footSoldiers.random()
+
+            // Schaden wird abhängig vom Heldentyp berechnet
             val damage = when (hero) {
                 is Soldier -> actionsJack()
                 is Scientist -> actionsSamantha()
                 is Jaffa -> actionsTealC()
                 else -> 0
             }
+
+            // Fußsoldat erleidet Schaden
             selectedFootSoldier.takeDamage(damage)
+
+            // Wenn der Fußsoldat keine Lebenspunkte mehr hat, wird er entfernt
             if (selectedFootSoldier.healthPoints <= 0) {
                 println("${selectedFootSoldier.name} wurde bezwungen")
                 footSoldiers.remove(selectedFootSoldier)
             }
         }
-        for ( soldier in footSoldiers){
-            var damageHero = soldier.randomAction(footSoldierActions)
-            heroes.random().takeDamage(damageHero)
-            for (hero in heroes)
-                if (hero.healthPoints <= 0){
-                    heroes.remove(hero)
 
-                //TODO Game Over wenn keine Helden mehr in liste sind !!!
+        // Schleife für die Fußsoldaten
+        for (soldier in footSoldiers) {
+            // Zufällige Aktion des Fußsoldaten
+            var damageHero = soldier.randomAction(footSoldierActions)
+            val survivingHeroes: MutableList<Hero> = mutableListOf()
+
+            // Schleife für die Helden
+            for (hero in heroes) {
+                // Ein zufälliger Held erleidet Schaden
+                heroes.random().takeDamage(damageHero)
+                if (hero.healthPoints > 0) {
+                    survivingHeroes.add(hero)
+                } else {
+                    println("${hero.name} ist im Kampf gefallen")
                 }
+            }
+
+            // Überlebende Helden werden aktualisiert
+            heroes.clear()
+            heroes.addAll(survivingHeroes)
+            countRounds++
+        }
+    }
+
+    // Wenn keine Helden mehr übrig sind, ist das Spiel verloren
+    if (heroes.isEmpty()) {
+        println("Game Over! Alle Helden wurden besiegt!")
+    } else {
+        // Ansonsten sind noch Fußsoldaten übrig, die fliehen
+        println("Die Übrig gebliebenen ${footSoldiers.size} Jaffa Krieger ergreifen die Flucht")
+        bossFight(boss,heroes)
+    }
+}
+
+
+fun bossFight(boss: Boss, heroes: MutableList<Hero>) {
+    println("Baal (Bosskampf) erscheint nachdem die Jaffa Krieger nutzlos gewesen sind")
+
+    while (heroes.isNotEmpty() && boss.healthPoints > 0) {
+        var countRounds: Int = 1
+
+        // Die Schleife läuft solange, wie noch Runden übrig sind.
+        while (countRounds <= 3) {
+            println("Der Bosskampf beginnt Runde $countRounds")
+
+            // Schleife für die Helden
+            for (hero in heroes) {
+
+                if (heroes.isEmpty()) {
+                    break
+                }
+
+                // Schaden wird abhängig vom Heldentyp berechnet
+                val damage = when (hero) {
+                    is Soldier -> actionsJack()
+                    is Scientist -> actionsSamantha()
+                    is Jaffa -> actionsTealC()
+                    else -> 0
+                }
+
+                // Fußsoldat erleidet Schaden
+                boss.takeDamage(damage)
+
+                if (boss.healthPoints <= 0) {
+                    println(
+                                "SG-1 hat den Systemlord ${boss.name} bezwungen"
+                    )
+                    break
+                }
+            }
+
+            var damageHero = bossActions.random().damage
+            val survivingHeroes: MutableList<Hero> = mutableListOf()
+
+            // Schleife für die Helden
+            val randomHero = heroes.random()
+            randomHero.takeDamage(damageHero)
+
+            if (randomHero.healthPoints > 0) {
+                survivingHeroes.add(randomHero)
+            } else {
+                println("${randomHero.name} ist im Kampf gefallen")
+            }
+
+            // Überlebende Helden werden aktualisiert
+            heroes.clear()
+            heroes.addAll(survivingHeroes)
+            countRounds++
         }
 
-        countRounds++
-    }while (footSoldiers.isNotEmpty() && countRounds <= 3) // Maximale Anzahl von Runden auf 3 begrenzen
-    if (footSoldier.isEmpty()){
-        println("SG-1 hat den Feind erfolgreich zurück geschlagen und zieht nun weiter")
-    }else
-        println("Die Übrig gebliebenen ${footSoldiers.size} Jaffa Krieger ergreifen die Flucht")
+        if (boss.healthPoints <= 0) {
+            println("SG-1 hat den Systemlord Baal bezwungen")
+        } else {
+            println("Baal hat SG-1 besiegt. Game Over!")
+            break
+        }
+    }
 }
+
+
 //TODO Rucksack mit Heilung einbauen ins Menü
+
+
 fun actionsJack(): Int {
     val jack = heroes[0]
     println("${jack.name} ist am Zug")

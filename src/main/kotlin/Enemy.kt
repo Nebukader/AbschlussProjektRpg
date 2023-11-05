@@ -14,9 +14,6 @@ class Todesgleiter : EnemyAction ("Todesgleiter", 80)
 // Diese Liste enthält Aktionen wie "Schlag" und "Stabwaffe" als vordefinierte Instanzen.
 open class Enemy(var name: String, var healthPoints: Int) {
 
-
-    //Eine Liste mit extra Actions für den Boss
-    val bossActions = listOf(StabwaffenSchuss(),TacTac(), Schlag(), HandGerät(),AlkeshBomber(),Todesgleiter())
     private val enemyName = name
 
 
