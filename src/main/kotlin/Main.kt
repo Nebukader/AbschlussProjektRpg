@@ -19,6 +19,7 @@ val footSoldiers:MutableList<FootSoldier> = mutableListOf(
     FootSoldier("Jaffa Saba",50))
 
 //Rucksack
+var ItemUsed = false
 val Bandages:MutableList<Heal> = mutableListOf(
     Heal("Verband-1",50),
     Heal("Verband-2",50),

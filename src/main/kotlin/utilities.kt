@@ -1,6 +1,8 @@
 fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>,boss:Boss) {
     var countRounds: Int = 1
 
+
+
     // Die Schleife läuft so lange, wie noch Runden übrig sind und Fußsoldaten vorhanden sind
     while (footSoldiers.isNotEmpty()) {
         println("Die Runde beginnt Runde $countRounds")
@@ -51,8 +53,10 @@ fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>,b
             }
 
             // Überlebende Helden werden aktualisiert
+            // Globale Variable wird zurück gesetzt damit die Helden nach der runde die Heilung wieder nutzen können
             heroes.clear()
             heroes.addAll(survivingHeroes)
+            ItemUsed = false
             countRounds++
         }
     }
@@ -73,6 +77,7 @@ fun bossFight(boss: Boss, heroes: MutableList<Hero>) {
 
     while (heroes.isNotEmpty() && boss.healthPoints > 0) {
         var countRounds: Int = 1
+        var itemUsed:Boolean = false
 
         // Die Schleife läuft, solange, wie noch Runden übrig sind.
         while (boss.healthPoints >= 0) {
@@ -121,11 +126,13 @@ fun bossFight(boss: Boss, heroes: MutableList<Hero>) {
             heroes.clear()
             heroes.addAll(survivingHeroes)
 
+
             if (boss.healthPoints < boss.originalHealthPoints / 2){
                 boss.summonLowHealth()
             }
 
         }
+        ItemUsed = false
         countRounds++
 
         if (boss.healthPoints <= 0) {
@@ -187,8 +194,13 @@ fun actionsJack(): Int {
 // Bei der Try Catch habe ich mir hilfe von ChatGPT geholt, um den fehler zu lösen, da ich mich nicht mehr genaur daran erinnerte,
 // wie das ganze nochmal funktioniert.
         5 -> {
+            if (ItemUsed == true){
+                print("Die Heilung wurde bereits genutzt warte bis zur nächsten Runde")
+            }else
+
             try {
                 Bandages[0].use(jack)
+                ItemUsed = true
             } catch (e: IndexOutOfBoundsException) {
                 println("Es gibt keine Verbände mehr im Rucksack.")
                 actionsJack()
@@ -245,8 +257,13 @@ fun actionsSamantha(): Int {
         }
 
         5 -> {
-            try {
-                Bandages[0].use(sam)
+            if (ItemUsed == true){
+                print("Die Heilung wurde bereits genutzt warte bis zur nächsten Runde")
+            }else
+
+                try {
+                    Bandages[0].use(sam)
+                    ItemUsed = true
             } catch (e: IndexOutOfBoundsException) {
                 println("Es gibt keine Verbände mehr im Rucksack.")
                 actionsSamantha()
@@ -306,8 +323,13 @@ fun actionsTealC(): Int {
         }
 
         5 -> {
-            try {
-                Bandages[0].use(tealC)
+            if (ItemUsed == true){
+                print("Die Heilung wurde bereits genutzt warte bis zur nächsten Runde")
+            }else
+
+                try {
+                    Bandages[0].use(tealC)
+                    ItemUsed = true
             } catch (e: IndexOutOfBoundsException) {
                 println("Es gibt keine Verbände mehr im Rucksack.")
                 actionsTealC()
