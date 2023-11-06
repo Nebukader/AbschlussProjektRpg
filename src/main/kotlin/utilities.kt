@@ -140,7 +140,7 @@ fun actionsJack(): Int {
     println("1 = P90- Maschinenpistole (15) Schaden")
     println("2 = Beretta 9mm (5) Schaden")
     println("3 = Zat’nik’tel (25) Schaden")
-    println("4 = M60 Maschinengewehr")
+    println("4 = Granate (30 AOE)")
     println("5 = Verband zum Heilen (50)")
     val choice = readlnOrNull()?.toIntOrNull() ?: 0
 
@@ -173,11 +173,9 @@ fun actionsJack(): Int {
         }
 
         4 -> {
-            val weapon = "M60 Maschinengewehr"
-            val damage = 12
-            jack.action(weapon, damage)
-            println("Jack greift nach seiner $weapon, das M60 Maschinengewehr, und eröffnet das Feuer auf den Feind.")
-            println("Das Maschinengewehr rattert, und Jack verursacht $damage Schadenspunkte.")
+            val weapon = "Granate"
+            val damage = 30
+            Grenade("M67",footSoldiers).use(jack)
             damage
         }
 
@@ -264,7 +262,7 @@ fun actionsTealC(): Int {
     println("2 = M249 Maschinengewehr (15) Schaden")
     println("3 = Zat’nik’tel (25) Schaden")
     println("4 = Kampf Messer (40) Schaden")
-    println("5 = Granate (AOE)")
+    println("5 = Granate (30 AOE)")
     println("5 = Verband zum Heilen (50)")
     val choice = readlnOrNull()?.toIntOrNull() ?: 0
 
@@ -291,9 +289,9 @@ fun actionsTealC(): Int {
         }
 
         4 -> {
-            val weapon = "Kampfmesser"
-            val damage = 40
-            println("${tealC.name} zieht sein $weapon mit schneller Bewegung. Er stürzt sich in den Nahkampf und fügt seinen Feinden $damage Schadenspunkte zu.")
+            val weapon = "Granate"
+            val damage = 30
+            Grenade("M67",footSoldiers).use(tealC)
             damage
         }
 
