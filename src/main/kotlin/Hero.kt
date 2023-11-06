@@ -7,10 +7,18 @@ open class Hero(val name:String, var healthPoints:Int) {
 
     open fun takeDamage(damage: Int) {
         healthPoints -= damage
-        if (healthPoints <= 0) {
+        if (damage == 0) {
+            println()
+        }else
+            if (healthPoints <= 0) {
+                println("Der Feind ist tot")
 
-        } else
-            println("$name hat noch $healthPoints Lebenspunkte")
+            } else
+                println("Der $name hat noch $healthPoints Lebenspunkte")
+    }
+    open fun shout(buffHealth:Int){
+        val buff = healthPoints / 100 * 20
+        healthPoints + buff
     }
 }
 

@@ -1,4 +1,4 @@
-fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>,boss:Boss) {
+fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>,bosses: MutableList<Boss>) {
     var countRounds: Int = 1
 
 
@@ -67,20 +67,22 @@ fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>,b
     } else {
         // Ansonsten sind noch Fußsoldaten übrig, die fliehen
         println("SG-1 hat die Gegner in die flucht geschlagen doch der Frieden hält nicht lange an...")
-        bossFight(boss,heroes)
+        bossFight(bosses,heroes)
     }
 }
 
 
-fun bossFight(boss: Boss, heroes: MutableList<Hero>) {
+fun bossFight(bosses: MutableList<Boss>, heroes: MutableList<Hero>) {
     println("Baal (Bosskampf) erscheint nachdem die Jaffa Krieger nutzlos gewesen sind")
-
-    while (heroes.isNotEmpty() && boss.healthPoints > 0) {
+//Hilfe von ChatGPT geholt
+    while (heroes.isNotEmpty() && bosses.any { it.healthPoints > 0 }) {
         var countRounds: Int = 1
-        var itemUsed:Boolean = false
 
         // Die Schleife läuft, solange, wie noch Runden übrig sind.
-        while (boss.healthPoints >= 0) {
+        for (boss in bosses) {
+            if (boss.healthPoints >= 0) {
+                continue
+            }
             println("Der Bosskampf beginnt Runde $countRounds")
 
             // Schleife für die Helden
@@ -90,7 +92,7 @@ fun bossFight(boss: Boss, heroes: MutableList<Hero>) {
                     break
                 }
 
-                // Schaden wird abhängig vom Heldentyp berechnet
+                // Schaden wird abhängig vom Heldentyp berechnet CHATGPT als hilfe genutzt wie ich mein Actions Menue einbaue
                 val damage = when (hero) {
                     is Soldier -> actionsJack()
                     is Scientist -> actionsSamantha()
@@ -102,9 +104,7 @@ fun bossFight(boss: Boss, heroes: MutableList<Hero>) {
                 boss.takeDamage(damage)
 
                 if (boss.healthPoints <= 0) {
-                    println(
-                                "SG-1 hat den Systemlord ${boss.name} bezwungen"
-                    )
+                    println("SG-1 hat den Systemlord ${boss.name} bezwungen")
                     break
                 }
             }
@@ -125,23 +125,19 @@ fun bossFight(boss: Boss, heroes: MutableList<Hero>) {
             // Überlebende Helden werden aktualisiert
             heroes.clear()
             heroes.addAll(survivingHeroes)
+            // Globale Variable wird zurück, gesetzt damit die Helden nach der runde die Heilung wieder nutzen können
+            ItemUsed = false
+            countRounds++
 
-
-            if (boss.healthPoints < boss.originalHealthPoints / 2){
+            if (boss.healthPoints < boss.originalHealthPoints / 2) {
                 boss.summonLowHealth()
             }
 
         }
-        ItemUsed = false
-        countRounds++
 
-        if (boss.healthPoints <= 0) {
-            println("SG-1 hat den Systemlord Baal bezwungen")
-            break
-        } else {
-            println("Baal hat SG-1 besiegt. Game Over!")
-            break
-        }
+    }
+    if (heroes.isEmpty()){
+        println("Game Over! Alle Helden wurden besiegt!")
     }
 }
 
@@ -151,7 +147,7 @@ fun actionsJack(): Int {
     println("${jack.name} ist am Zug")
     println("Bitte wählen sie eine Aktion aus")
     println("1 = P90- Maschinenpistole (15) Schaden")
-    println("2 = Beretta 9mm (5) Schaden")
+    println("2 = Anfeuern (20% Health Buff)")
     println("3 = Zat’nik’tel (25) Schaden")
     println("4 = Granate (30 AOE)")
     println("5 = Verband zum Heilen (50)")
@@ -166,10 +162,9 @@ fun actionsJack(): Int {
         }
 
         2 -> {
-            val weapon = "Beretta 9mm"
-            val damage = 5
-            println("${jack.name} greift nach seiner $weapon und verursacht $damage Schadenspunkte")
-            damage
+            jack.shout(jack.healthPoints)
+            println("Das Adrenalin schießt ${jack.name} in die Blutbanen angetrieben von der brenzligen Situation, stärkt es ${jack.name} der daraufhin laut aufschreit.")
+            0
         }
 
         3 -> {
@@ -196,6 +191,8 @@ fun actionsJack(): Int {
         5 -> {
             if (ItemUsed == true){
                 print("Die Heilung wurde bereits genutzt warte bis zur nächsten Runde")
+                actionsJack()
+
             }else
 
             try {
@@ -205,7 +202,7 @@ fun actionsJack(): Int {
                 println("Es gibt keine Verbände mehr im Rucksack.")
                 actionsJack()
             }
-            -1
+            0
         }
 
         else -> {
@@ -259,6 +256,8 @@ fun actionsSamantha(): Int {
         5 -> {
             if (ItemUsed == true){
                 print("Die Heilung wurde bereits genutzt warte bis zur nächsten Runde")
+                actionsSamantha()
+
             }else
 
                 try {
@@ -268,7 +267,7 @@ fun actionsSamantha(): Int {
                 println("Es gibt keine Verbände mehr im Rucksack.")
                 actionsSamantha()
             }
-            -1
+            0
         }
 
 
@@ -325,6 +324,8 @@ fun actionsTealC(): Int {
         5 -> {
             if (ItemUsed == true){
                 print("Die Heilung wurde bereits genutzt warte bis zur nächsten Runde")
+                actionsTealC()
+
             }else
 
                 try {
@@ -334,7 +335,7 @@ fun actionsTealC(): Int {
                 println("Es gibt keine Verbände mehr im Rucksack.")
                 actionsTealC()
             }
-            -1
+            0
         }
 
 
