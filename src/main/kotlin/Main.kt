@@ -1,8 +1,8 @@
 //Heros
 val heroes:MutableList<Hero> = mutableListOf(
-    Soldier("Jack O Neil", 250,),
-    Scientist("Samantha Carter",250),
-    Jaffa("Teal C",250))
+    Soldier("Jack O Neil", 400,),
+    Scientist("Samantha Carter",350),
+    Jaffa("Teal C",450))
 
 //Eventuel später zum selber aussuchen der Heldentruppe
 val daniel:Hero = Hero("Daniel Jackson",10)

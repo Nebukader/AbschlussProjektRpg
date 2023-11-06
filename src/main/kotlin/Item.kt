@@ -13,8 +13,6 @@ open class Heal(name:String, private var healingAmount: Int):Item(name){
             heal(user)
             Bandages.removeAt(0)
         }
-        else
-            println("Der Rucksack ist leer, wir haben bereits alles Verbände genutzt, am besten such einen Sarkophag oder brich die Mission ab")
     }
 
     //Damit von außen die funktion nicht verändert werden kann ist diese auf Private da sie nur innerhalb der Klasse genutzt werden soll

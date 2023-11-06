@@ -45,13 +45,14 @@ fun printInfoList(footSoldiers:MutableList<FootSoldier>) {
 }
 
 open class Boss(name: String, healthPoints: Int) : Enemy(name, healthPoints){
+    val originalHealthPoints:Int = healthPoints
     fun bossRandomAction(): Int {
         println("$name macht seinen Angriff")
         return randomAction(bossActions)
     }
     fun summonLowHealth(){
-        if (healthPoints <-  healthPoints / 2){
-            bossPlusMinion.add(Minion("Kull Krieger",150))
+        if (healthPoints <-  originalHealthPoints / 2){
+            bossPlusMinion.add(Minion("Kull Krieger",300))
             println("Hahaha du dachtest schon du hast gewonnen, aber hier kommt mein Kull Krieger")
         }
     }

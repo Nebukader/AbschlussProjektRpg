@@ -2,7 +2,7 @@ fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>,b
     var countRounds: Int = 1
 
     // Die Schleife läuft so lange, wie noch Runden übrig sind und Fußsoldaten vorhanden sind
-    while (footSoldiers.isNotEmpty() && countRounds <= 3) {
+    while (footSoldiers.isNotEmpty()) {
         println("Die Runde beginnt Runde $countRounds")
 
         // Schleife für die Helden
@@ -62,7 +62,7 @@ fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>,b
         println("Game Over! Alle Helden wurden besiegt!")
     } else {
         // Ansonsten sind noch Fußsoldaten übrig, die fliehen
-        println("Die Übrig gebliebenen ${footSoldiers.size} Jaffa Krieger ergreifen die Flucht")
+        println("SG-1 hat die Gegner in die flucht geschlagen doch der Frieden hält nicht lange an...")
         bossFight(boss,heroes)
     }
 }
@@ -75,7 +75,7 @@ fun bossFight(boss: Boss, heroes: MutableList<Hero>) {
         var countRounds: Int = 1
 
         // Die Schleife läuft, solange, wie noch Runden übrig sind.
-        while (countRounds <= 3) {
+        while (boss.healthPoints >= 0) {
             println("Der Bosskampf beginnt Runde $countRounds")
 
             // Schleife für die Helden
@@ -93,7 +93,7 @@ fun bossFight(boss: Boss, heroes: MutableList<Hero>) {
                     else -> 0
                 }
 
-                // Fußsoldat erleidet Schaden
+                // Boss erleidet Schaden
                 boss.takeDamage(damage)
 
                 if (boss.healthPoints <= 0) {
@@ -104,7 +104,7 @@ fun bossFight(boss: Boss, heroes: MutableList<Hero>) {
                 }
             }
 
-            var damageHero = bossActions.random().damage
+            val damageHero = bossActions.random().damage
             val survivingHeroes: MutableList<Hero> = mutableListOf()
 
             // Schleife für die Helden
@@ -120,11 +120,17 @@ fun bossFight(boss: Boss, heroes: MutableList<Hero>) {
             // Überlebende Helden werden aktualisiert
             heroes.clear()
             heroes.addAll(survivingHeroes)
-            countRounds++
+
+            if (boss.healthPoints < boss.originalHealthPoints / 2){
+                boss.summonLowHealth()
+            }
+
         }
+        countRounds++
 
         if (boss.healthPoints <= 0) {
             println("SG-1 hat den Systemlord Baal bezwungen")
+            break
         } else {
             println("Baal hat SG-1 besiegt. Game Over!")
             break
