@@ -1,7 +1,7 @@
 fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>,boss:Boss) {
     var countRounds: Int = 1
 
-    // Die Schleife läuft solange, wie noch Runden übrig sind und Fußsoldaten vorhanden sind
+    // Die Schleife läuft so lange, wie noch Runden übrig sind und Fußsoldaten vorhanden sind
     while (footSoldiers.isNotEmpty() && countRounds <= 3) {
         println("Die Runde beginnt Runde $countRounds")
 
@@ -74,7 +74,7 @@ fun bossFight(boss: Boss, heroes: MutableList<Hero>) {
     while (heroes.isNotEmpty() && boss.healthPoints > 0) {
         var countRounds: Int = 1
 
-        // Die Schleife läuft solange, wie noch Runden übrig sind.
+        // Die Schleife läuft, solange, wie noch Runden übrig sind.
         while (countRounds <= 3) {
             println("Der Bosskampf beginnt Runde $countRounds")
 
@@ -133,9 +133,6 @@ fun bossFight(boss: Boss, heroes: MutableList<Hero>) {
 }
 
 
-//TODO Rucksack mit Heilung einbauen ins Menü
-
-
 fun actionsJack(): Int {
     val jack = heroes[0]
     println("${jack.name} ist am Zug")
@@ -144,7 +141,7 @@ fun actionsJack(): Int {
     println("2 = Beretta 9mm (5) Schaden")
     println("3 = Zat’nik’tel (25) Schaden")
     println("4 = M60 Maschinengewehr")
-    println("5 = Granate (30) Schaden")
+    println("5 = Verband zum Heilen (50)")
     val choice = readlnOrNull()?.toIntOrNull() ?: 0
 
     return when (choice) {
@@ -185,14 +182,12 @@ fun actionsJack(): Int {
         }
 
         5 -> {
-            val weapon = "Granate"
-            val damage = 30
-            jack.action(weapon, damage)
-            println(
-                "Jack zieht eine $weapon aus seinem Gürtel und wirft sie in Richtung des Feindes." +
-                        "Die Granate explodiert mit einem lauten Knall und verursacht einen massiven Schaden von $damage Punkten."
-            )
-            damage
+            Bandages[0].use(jack)
+            if (Bandages.isEmpty()){
+                println("Der Rucksack hat keine verbände mehr, mach eine neue auswahl")
+                actionsJack()
+            }
+            -1
         }
 
         else -> {
@@ -211,7 +206,7 @@ fun actionsSamantha(): Int {
     println("2 = G36 Maschinengewehr (25) Schaden")
     println("3 = Kull Disruptor (22) Schaden")
     println("4 = Goa`uld Handgerät (40) Schaden")
-    println("5 = Granate (30) Schaden")
+    println("5 = Verband zum Heilen (50)")
     val choice: Int? = readlnOrNull()?.toIntOrNull() ?: 0
 
     return when (choice) {
@@ -244,10 +239,12 @@ fun actionsSamantha(): Int {
         }
 
         5 -> {
-            val weapon = "Granate"
-            val damage = 30
-            println("Samantha Carter schleudert eine $weapon in die Nähe des Feindes! Die Granate explodiert mit gewaltiger Wucht und verursacht einen massiven Schaden von $damage Punkten.")
-            damage
+            Bandages[0].use(sam)
+            if (Bandages.isEmpty()){
+                println("Der Rucksack hat keine verbände mehr, mach eine neue auswahl")
+                actionsSamantha()
+            }
+            -1
         }
 
         else -> {
@@ -268,7 +265,7 @@ fun actionsTealC(): Int {
     println("3 = Zat’nik’tel (25) Schaden")
     println("4 = Kampf Messer (40) Schaden")
     println("5 = Granate (AOE)")
-    println("Bitte mach deine Eingabe:")
+    println("5 = Verband zum Heilen (50)")
     val choice = readlnOrNull()?.toIntOrNull() ?: 0
 
     return when (choice) {
@@ -301,10 +298,12 @@ fun actionsTealC(): Int {
         }
 
         5 -> {
-            val weapon = "Granate"
-            val damage = 40
-            println("${tealC.name} wirft eine $weapon mit präziser Bewegung. Die Granate explodiert und verursacht dabei $damage Schadenspunkte im Bereich der Explosion.")
-            damage
+            Bandages[0].use(tealC)
+            if (Bandages.isEmpty()){
+                println("Der Rucksack hat keine verbände mehr, mach eine neue auswahl")
+                actionsTealC()
+            }
+            -1
         }
 
         else -> {
