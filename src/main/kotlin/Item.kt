@@ -27,15 +27,16 @@ open class Heal(name:String, private var healingAmount: Int):Item(name){
 }
 
 
-class Grenade(name:String):Item(name){
+open class Grenade(name:String, private val enemys: MutableList<FootSoldier>):Item(name) {
     val damage = 30
+
     override fun use(user: Hero) {
         super.use(user)
-    }
-    // Wichtig noch Ziel mit Enemy List updaten, das alle aus der Liste schaden, bekommen AOE
-    // hier wird der schaden auf das Ziel angewandt
-    fun throwAt(targetEnemy:Enemy){
-        targetEnemy.takeDamage(damage)
+        for (enemy in enemys) {
+            enemy.takeDamage(damage)
+        }
+        println("${user.name} wirft eine Granate, die allen Gegnern in der Nähe $damage Schadenspunkte zufügt.")
+
     }
 }
 
