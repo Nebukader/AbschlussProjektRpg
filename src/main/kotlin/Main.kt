@@ -28,12 +28,12 @@ val Bandages:MutableList<Heal> = mutableListOf(
 
 val footSoldierActions = listOf(StabwaffenSchuss(), TacTac(), Cannon(), Schlag(), HandGerät(), Zetnitika())
 val bossActions = listOf(StabwaffenSchuss(),TacTac(), Schlag(), HandGerät(),AlkeshBomber(),Todesgleiter())
-
+val minionActions = listOf(PlasmaRepeater(),Schlag())
 
 
 //Boss
 val BossBaal:Boss = Boss("Ba'al",800)
-val bossPlusMinion:MutableList<Enemy> = mutableListOf(
+val bossPlusMinion:MutableList<Boss> = mutableListOf(
     BossBaal)
 fun main() {
 

@@ -1,7 +1,7 @@
 
 
 fun main() {
-    gameplay(footSoldiers,heroes,BossBaal)
+    gameplay(footSoldiers,heroes,bossPlusMinion)
 
 
 

@@ -9,6 +9,7 @@ class Zetnitika : EnemyAction ("Zat'ni katel",25)
 class AlkeshBomber : EnemyAction ("Alkesh Bomber", 100)
 
 class Todesgleiter : EnemyAction ("Todesgleiter", 80)
+class PlasmaRepeater : EnemyAction ("Plasma-Repeater",30)
 
 // Die möglichen Aktionen, die der Feind ausführen kann, werden in einer Liste gespeichert.
 // Diese Liste enthält Aktionen wie "Schlag" und "Stabwaffe" als vordefinierte Instanzen.
@@ -27,6 +28,9 @@ open class Enemy(var name: String, var healthPoints: Int) {
 
     open fun takeDamage(damage: Int) {
         healthPoints -= damage
+        if (damage == 0) {
+            println()
+        }else
         if (healthPoints <= 0) {
             println("Der Feind ist tot")
 
@@ -59,7 +63,10 @@ open class Boss(name: String, healthPoints: Int) : Enemy(name, healthPoints){
 }
 
 class Minion(name: String, healthPoints: Int) : Boss(name, healthPoints){
-
+    fun minionRandomAction():Int{
+        println("Der $name macht seinen Angriff")
+        return randomAction(minionActions)
+    }
 }
 
 
