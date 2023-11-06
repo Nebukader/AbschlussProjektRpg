@@ -178,11 +178,13 @@ fun actionsJack(): Int {
             Grenade("M67",footSoldiers).use(jack)
             damage
         }
-
+// Bei der Try Catch habe ich mir hilfe von ChatGPT geholt, um den fehler zu lösen, da ich mich nicht mehr genaur daran erinnerte,
+// wie das ganze nochmal funktioniert.
         5 -> {
-            Bandages[0].use(jack)
-            if (Bandages.isEmpty()){
-                println("Der Rucksack hat keine verbände mehr, mach eine neue auswahl")
+            try {
+                Bandages[0].use(jack)
+            } catch (e: IndexOutOfBoundsException) {
+                println("Es gibt keine Verbände mehr im Rucksack.")
                 actionsJack()
             }
             -1
@@ -237,13 +239,15 @@ fun actionsSamantha(): Int {
         }
 
         5 -> {
-            Bandages[0].use(sam)
-            if (Bandages.isEmpty()){
-                println("Der Rucksack hat keine verbände mehr, mach eine neue auswahl")
+            try {
+                Bandages[0].use(sam)
+            } catch (e: IndexOutOfBoundsException) {
+                println("Es gibt keine Verbände mehr im Rucksack.")
                 actionsSamantha()
             }
             -1
         }
+
 
         else -> {
             println("Ungültige Auswahl")
@@ -296,13 +300,15 @@ fun actionsTealC(): Int {
         }
 
         5 -> {
-            Bandages[0].use(tealC)
-            if (Bandages.isEmpty()){
-                println("Der Rucksack hat keine verbände mehr, mach eine neue auswahl")
+            try {
+                Bandages[0].use(tealC)
+            } catch (e: IndexOutOfBoundsException) {
+                println("Es gibt keine Verbände mehr im Rucksack.")
                 actionsTealC()
             }
             -1
         }
+
 
         else -> {
             println("Ungültige Auswahl")
