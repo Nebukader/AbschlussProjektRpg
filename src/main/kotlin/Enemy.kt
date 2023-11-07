@@ -11,20 +11,26 @@ class AlkeshBomber : EnemyAction("Alkesh Bomber", 100)
 class Todesgleiter : EnemyAction("Todesgleiter", 80)
 class PlasmaRepeater : EnemyAction("Plasma-Repeater", 30)
 
-class Debuff(private var target: Hero, name: String, damage: Int) : EnemyAction(name, damage) {
+class Debuff(private val target: Hero, name: String, damage: Int) : EnemyAction(name, damage) {
     init {
-            val originalHealthPoints = target.healthPoints
-            val debuffHealthPoints: Int = originalHealthPoints / 100 * 10
-            if (target.debuff == true) {
-                println(" Du wurdest mit Naniten infiziert und verlierst jede Runde 10% Lebenspunkte")
-                if (target.healthPoints < originalHealthPoints * 0.2)
-                    target.debuff = false
-                print("Du bist nicht mehr infiziert deine Lebenspuntke betragen aber nur noch :${target.healthPoints} Lebenspunkte")
-            } else
-                target.healthPoints -= debuffHealthPoints
-            println("Du wirst schwächer du verlierst $debuffHealthPoints Lebenspunkte")
-            target.debuff = true
+        applyDebuff()
+    }
 
+    private fun applyDebuff() {
+        val originalHealthPoints = target.healthPoints
+        val debuffHealthPoints: Int = originalHealthPoints / 100 * 10
+
+        if (target.debuff) {
+            println("Du wurdest mit Naniten infiziert und verlierst jede Runde 10% Lebenspunkte")
+            if (target.healthPoints < originalHealthPoints * 0.2) {
+                target.debuff = false
+            }
+            println("Du bist nicht mehr infiziert, deine Lebenspunkte betragen aber nur noch: ${target.healthPoints} Lebenspunkte")
+        } else {
+            target.healthPoints -= debuffHealthPoints
+            println("Du wirst schwächer und verlierst $debuffHealthPoints Lebenspunkte")
+            target.debuff = true
+        }
     }
 }
 
