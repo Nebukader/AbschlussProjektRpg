@@ -1,11 +1,8 @@
 fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>,bosses: MutableList<Boss>) {
-    var countRounds: Int = 1
-
-
 
     // Die Schleife läuft so lange, wie noch Runden übrig sind und Fußsoldaten vorhanden sind
     while (footSoldiers.isNotEmpty()) {
-        println("Die Runde beginnt Runde $countRounds")
+        println("Die Runde beginnt Runde")
 
         // Schleife für die Helden
         for (hero in heroes) {
@@ -42,9 +39,10 @@ fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>,b
             val survivingHeroes: MutableList<Hero> = mutableListOf()
 
             // Schleife für die Helden
+
+            // Ein zufälliger Held erleidet Schaden
+            heroes.random().takeDamage(damageHero)
             for (hero in heroes) {
-                // Ein zufälliger Held erleidet Schaden
-                heroes.random().takeDamage(damageHero)
                 if (hero.healthPoints > 0) {
                     survivingHeroes.add(hero)
                 } else {
@@ -57,7 +55,6 @@ fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>,b
             heroes.clear()
             heroes.addAll(survivingHeroes)
             ItemUsed = false
-            countRounds++
         }
     }
 
@@ -195,13 +192,13 @@ fun actionsJack(): Int {
 
             }else
 
-            try {
-                Bandages[0].use(jack)
-                ItemUsed = true
-            } catch (e: IndexOutOfBoundsException) {
-                println("Es gibt keine Verbände mehr im Rucksack.")
-                actionsJack()
-            }
+                try {
+                    Bandages[0].use(jack)
+                    ItemUsed = true
+                } catch (e: IndexOutOfBoundsException) {
+                    println("Es gibt keine Verbände mehr im Rucksack.")
+                    actionsJack()
+                }
             0
         }
 
@@ -263,10 +260,10 @@ fun actionsSamantha(): Int {
                 try {
                     Bandages[0].use(sam)
                     ItemUsed = true
-            } catch (e: IndexOutOfBoundsException) {
-                println("Es gibt keine Verbände mehr im Rucksack.")
-                actionsSamantha()
-            }
+                } catch (e: IndexOutOfBoundsException) {
+                    println("Es gibt keine Verbände mehr im Rucksack.")
+                    actionsSamantha()
+                }
             0
         }
 
@@ -331,10 +328,10 @@ fun actionsTealC(): Int {
                 try {
                     Bandages[0].use(tealC)
                     ItemUsed = true
-            } catch (e: IndexOutOfBoundsException) {
-                println("Es gibt keine Verbände mehr im Rucksack.")
-                actionsTealC()
-            }
+                } catch (e: IndexOutOfBoundsException) {
+                    println("Es gibt keine Verbände mehr im Rucksack.")
+                    actionsTealC()
+                }
             0
         }
 
