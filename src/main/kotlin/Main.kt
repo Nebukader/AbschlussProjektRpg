@@ -27,7 +27,7 @@ val Bandages:MutableList<Heal> = mutableListOf(
 )
 
 val footSoldierActions = listOf(StabwaffenSchuss(), TacTac(), Cannon(), Schlag(), HandGerät(), Zetnitika())
-val bossActions = listOf(StabwaffenSchuss(),TacTac(), Schlag(), HandGerät(),AlkeshBomber(),Todesgleiter())
+val bossActions = listOf(StabwaffenSchuss(),TacTac(), Schlag(), HandGerät(),AlkeshBomber(),Todesgleiter(),Debuff(heroes.random(),"Naniten",10))
 val minionActions = listOf(PlasmaRepeater(),Schlag())
 
 
