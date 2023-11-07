@@ -13,7 +13,6 @@ class PlasmaRepeater : EnemyAction("Plasma-Repeater", 30)
 
 class Debuff(private var target: Hero, name: String, damage: Int) : EnemyAction(name, damage) {
     init {
-        fun debuffHealth(target: Hero) {
             val originalHealthPoints = target.healthPoints
             val debuffHealthPoints: Int = originalHealthPoints / 100 * 10
             if (target.debuff == true) {
@@ -25,7 +24,7 @@ class Debuff(private var target: Hero, name: String, damage: Int) : EnemyAction(
                 target.healthPoints -= debuffHealthPoints
             println("Du wirst schwächer du verlierst $debuffHealthPoints Lebenspunkte")
             target.debuff = true
-        }
+
     }
 }
 
