@@ -1,4 +1,4 @@
-fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>,bosses: MutableList<Boss>) {
+fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>, bosses: MutableList<Boss>) {
 
     // Die Schleife läuft so lange, wie noch Runden übrig sind und Fußsoldaten vorhanden sind
     while (footSoldiers.isNotEmpty()) {
@@ -36,9 +36,10 @@ fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>,b
         for (soldier in footSoldiers) {
             // Zufällige Aktion des Fußsoldaten
             var damageHero = soldier.randomAction(footSoldierActions)
-            val survivingHeroes: MutableList<Hero> = mutableListOf()
 
             // Schleife für die Helden
+            val survivingHeroes: MutableList<Hero> = mutableListOf()
+
 
             // Ein zufälliger Held erleidet Schaden
             heroes.random().takeDamage(damageHero)
@@ -64,79 +65,92 @@ fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>,b
     } else {
         // Ansonsten sind noch Fußsoldaten übrig, die fliehen
         println("SG-1 hat die Gegner in die flucht geschlagen doch der Frieden hält nicht lange an...")
-        bossFight(bosses,heroes)
+        bossFight(bosses, heroes)
     }
+
 }
 
 
 fun bossFight(bosses: MutableList<Boss>, heroes: MutableList<Hero>) {
     println("Baal (Bosskampf) erscheint nachdem die Jaffa Krieger nutzlos gewesen sind")
-//Hilfe von ChatGPT geholt
-    while (heroes.isNotEmpty() && bosses.any { it.healthPoints > 0 }) {
-        var countRounds: Int = 1
+    val originalHealthPoints = BossBaal.healthPoints
 
-        // Die Schleife läuft, solange, wie noch Runden übrig sind.
-        for (boss in bosses) {
-            if (boss.healthPoints >= 0) {
-                continue
-            }
-            println("Der Bosskampf beginnt Runde $countRounds")
+    if (heroes.isEmpty() || bosses.isEmpty()) {
+        // Überprüfe, ob entweder Helden oder Bosse leer sind, und beende den Bosskampf
+        println("Bosskampf beendet")
+        return
+    }
 
-            // Schleife für die Helden
-            for (hero in heroes) {
+    // Initialisiere die Anzahl der Runden außerhalb der Schleife
+    var countRounds: Int = 1
 
-                if (heroes.isEmpty()) {
-                    break
-                }
+    while (heroes.isNotEmpty() && bosses.isNotEmpty()) {
+        println("Der Bosskampf beginnt Runde $countRounds")
 
-                // Schaden wird abhängig vom Heldentyp berechnet CHATGPT als hilfe genutzt wie ich mein Actions Menue einbaue
-                val damage = when (hero) {
-                    is Soldier -> actionsJack()
-                    is Scientist -> actionsSamantha()
-                    is Jaffa -> actionsTealC()
-                    else -> 0
-                }
+        // Kopie der Heldenliste erstellen, um Probleme bei der Iteration zu vermeiden
+        val heroesCopy = heroes.toList()
 
-                // Boss erleidet Schaden
-                boss.takeDamage(damage)
-
-                if (boss.healthPoints <= 0) {
-                    println("SG-1 hat den Systemlord ${boss.name} bezwungen")
-                    break
-                }
+        for (hero in heroesCopy) {
+            if (bosses.isEmpty()) {
+                break
             }
 
-            val damageHero = bossActions.random().damage
-            val survivingHeroes: MutableList<Hero> = mutableListOf()
+            // Schaden wird abhängig vom Heldentyp berechnet
+            val damage = when (hero) {
+                is Soldier -> actionsJack()
+                is Scientist -> actionsSamantha()
+                is Jaffa -> actionsTealC()
+                else -> 0
+            }
 
-            // Schleife für die Helden
+            if (kullWarrior.healthPoints <= 0){
+                println("Der Kull Krieger wurde bezwungen, nun kann sich SG-1 wieder auf den Systemlord konzentrieren")
+            }
+            // Zufälligen Boss auswählen und Schaden zufügen
+            if (bosses.contains(kullWarrior)){
+                println("SG-1 erkennt die Gefahr und nimmer den Kull Krieger als erstes ins Visier !")
+                kullWarrior.takeDamage(damage)
+            }else {
+                bosses[0].takeDamage(damage)
+            }
+            if (BossBaal.healthPoints < originalHealthPoints / 2){
+                if (BossBaal.summonend == false){
+                    BossBaal.summonLowHealth()
+                }else
+                    println()
+            }
+
+            if (bosses[0].healthPoints <= 0) {
+                println("SG-1 hat den Systemlord ${bosses[0].name} bezwungen")
+                break
+            }
+
+            // Angriff des Bosses auf einen zufälligen Helden
+            val randomBoss = bosses.random()
             val randomHero = heroes.random()
-            randomHero.takeDamage(damageHero)
-
-            if (randomHero.healthPoints > 0) {
-                survivingHeroes.add(randomHero)
-            } else {
-                println("${randomHero.name} ist im Kampf gefallen")
-            }
-
-            // Überlebende Helden werden aktualisiert
-            heroes.clear()
-            heroes.addAll(survivingHeroes)
-            // Globale Variable wird zurück, gesetzt damit die Helden nach der runde die Heilung wieder nutzen können
-            ItemUsed = false
-            countRounds++
-
-            if (boss.healthPoints < boss.originalHealthPoints / 2) {
-                boss.summonLowHealth()
-            }
-
+            val bossActionDamage = randomBoss.bossRandomAction()
+            randomHero.takeDamage(bossActionDamage)
         }
 
+        val survivingHeroes: MutableList<Hero> = heroes.filter { it.healthPoints > 0 }.toMutableList()
+        heroes.clear()
+        heroes.addAll(survivingHeroes)
+
+        // Setze globale Variable zurück, damit die Helden nach der Runde die Heilung wieder nutzen können
+        ItemUsed = false
+        countRounds++
+
+        if (bosses.isEmpty()) {
+            println("Alle Bosse wurden besiegt. Der Bosskampf ist beendet.")
+            break
+        }
     }
-    if (heroes.isEmpty()){
+
+    if (heroes.isEmpty()) {
         println("Game Over! Alle Helden wurden besiegt!")
     }
 }
+
 
 
 fun actionsJack(): Int {
@@ -180,17 +194,17 @@ fun actionsJack(): Int {
         4 -> {
             val weapon = "Granate"
             val damage = 30
-            Grenade("M67",footSoldiers).use(jack)
+            Grenade("M67", footSoldiers).use(jack)
             damage
         }
 // Bei der Try Catch habe ich mir hilfe von ChatGPT geholt, um den fehler zu lösen, da ich mich nicht mehr genaur daran erinnerte,
 // wie das ganze nochmal funktioniert.
         5 -> {
-            if (ItemUsed == true){
+            if (ItemUsed == true) {
                 print("Die Heilung wurde bereits genutzt warte bis zur nächsten Runde")
                 actionsJack()
 
-            }else
+            } else
 
                 try {
                     Bandages[0].use(jack)
@@ -217,7 +231,7 @@ fun actionsSamantha(): Int {
     println("1 = P90- Maschinenpistole (15) Schaden")
     println("2 = G36 Maschinengewehr (25) Schaden")
     println("3 = Kull Disruptor (22) Schaden")
-    println("4 = Goa`uld Handgerät (40) Schaden")
+    println("4 = Granate (30 AOE)")
     println("5 = Verband zum Heilen (50)")
     val choice: Int? = readlnOrNull()?.toIntOrNull() ?: 0
 
@@ -251,11 +265,11 @@ fun actionsSamantha(): Int {
         }
 
         5 -> {
-            if (ItemUsed == true){
+            if (ItemUsed == true) {
                 print("Die Heilung wurde bereits genutzt warte bis zur nächsten Runde")
                 actionsSamantha()
 
-            }else
+            } else
 
                 try {
                     Bandages[0].use(sam)
@@ -284,8 +298,7 @@ fun actionsTealC(): Int {
     println("1 = Stabwaffe (35) Schaden")
     println("2 = M249 Maschinengewehr (15) Schaden")
     println("3 = Zat’nik’tel (25) Schaden")
-    println("4 = Kampf Messer (40) Schaden")
-    println("5 = Granate (30 AOE)")
+    println("4 = Granate (30 AOE)")
     println("5 = Verband zum Heilen (50)")
     val choice = readlnOrNull()?.toIntOrNull() ?: 0
 
@@ -314,16 +327,16 @@ fun actionsTealC(): Int {
         4 -> {
             val weapon = "Granate"
             val damage = 30
-            Grenade("M67",footSoldiers).use(tealC)
+            Grenade("M67", footSoldiers).use(tealC)
             damage
         }
 
         5 -> {
-            if (ItemUsed == true){
+            if (ItemUsed == true) {
                 print("Die Heilung wurde bereits genutzt warte bis zur nächsten Runde")
                 actionsTealC()
 
-            }else
+            } else
 
                 try {
                     Bandages[0].use(tealC)
