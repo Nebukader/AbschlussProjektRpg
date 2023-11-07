@@ -11,6 +11,19 @@ class AlkeshBomber : EnemyAction ("Alkesh Bomber", 100)
 class Todesgleiter : EnemyAction ("Todesgleiter", 80)
 class PlasmaRepeater : EnemyAction ("Plasma-Repeater",30)
 
+class Debuff(target: Hero, name: String, damage: Int) : EnemyAction(name, damage) {
+    init {
+        // Hier speichern wir die Lebenspunkte des Helden das wir wissen wann der Debuff aufhören soll (20%) Lebenspunkte
+       val minHealth = target.healthPoints * 0.2
+
+        while (target.healthPoints > minHealth) {
+            val debuffHealthAmmount = target.healthPoints / 100 * 10
+            target.healthPoints -= debuffHealthAmmount
+        }
+    }
+}
+
+
 // Die möglichen Aktionen, die der Feind ausführen kann, werden in einer Liste gespeichert.
 // Diese Liste enthält Aktionen wie "Schlag" und "Stabwaffe" als vordefinierte Instanzen.
 open class Enemy(var name: String, var healthPoints: Int) {
@@ -48,15 +61,16 @@ fun printInfoList(footSoldiers:MutableList<FootSoldier>) {
     }
 }
 
-open class Boss(name: String, healthPoints: Int) : Enemy(name, healthPoints){
-    val originalHealthPoints:Int = healthPoints
+open class Boss(name: String, healthPoints: Int) : Enemy(name, healthPoints) {
+    val originalHealthPoints: Int = healthPoints
     fun bossRandomAction(): Int {
         println("$name macht seinen Angriff")
         return randomAction(bossActions)
     }
-    fun summonLowHealth(){
-        if (healthPoints <-  originalHealthPoints / 2){
-            bossPlusMinion.add(Minion("Kull Krieger",300))
+
+    fun summonLowHealth() {
+        if (healthPoints < -originalHealthPoints / 2) {
+            bossPlusMinion.add(Minion("Kull Krieger", 300))
             println("Hahaha du dachtest schon du hast gewonnen, aber hier kommt mein Kull Krieger")
         }
     }
