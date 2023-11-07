@@ -1,5 +1,12 @@
+/**
+ * Die Funktion `gameplay` steuert den Ablauf des Spiels zwischen Fußsoldaten, Helden und Bossen.
+ * Sie läuft solange, wie noch Fußsoldaten vorhanden sind und es noch Runden übrig sind.
+ * In jeder Runde werden die Helden und Fußsoldaten abwechselnd Schaden zufügen.
+ * Wenn keine Fußsoldaten mehr übrig sind, endet das Spiel.
+ * Wenn keine Helden mehr übrig sind, ist das Spiel verloren.
+ * Ansonsten werden die verbliebenen Fußsoldaten besiegt und es kommt zum Bosskampf.
+ */
 fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>, bosses: MutableList<Boss>) {
-
     // Die Schleife läuft so lange, wie noch Runden übrig sind und Fußsoldaten vorhanden sind
     while (footSoldiers.isNotEmpty()) {
         println("Die Runde beginnt Runde")
@@ -40,9 +47,9 @@ fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>, 
             // Schleife für die Helden
             val survivingHeroes: MutableList<Hero> = mutableListOf()
 
-
             // Ein zufälliger Held erleidet Schaden
             heroes.random().takeDamage(damageHero)
+
             for (hero in heroes) {
                 if (hero.healthPoints > 0) {
                     survivingHeroes.add(hero)
@@ -52,7 +59,7 @@ fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>, 
             }
 
             // Überlebende Helden werden aktualisiert
-            // Globale Variable wird zurück gesetzt damit die Helden nach der runde die Heilung wieder nutzen können
+            // Globale Variable wird zurück gesetzt damit die Helden nach der Runde die Heilung wieder nutzen können
             heroes.clear()
             heroes.addAll(survivingHeroes)
             ItemUsed = false
@@ -64,12 +71,17 @@ fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>, 
         println("Game Over! Alle Helden wurden besiegt!")
     } else {
         // Ansonsten sind noch Fußsoldaten übrig, die fliehen
-        println("SG-1 hat die Gegner in die flucht geschlagen doch der Frieden hält nicht lange an...")
+        println("SG-1 hat die Gegner in die Flucht geschlagen, doch der Frieden hält nicht lange an...")
         bossFight(bosses, heroes)
     }
-
 }
 
+/**
+ * Funktion, die den Bosskampf zwischen Bossen und Helden durchführt.
+ *
+ * @param bosses Eine Liste von Bossen
+ * @param heroes Eine Liste von Helden
+ */
 
 fun bossFight(bosses: MutableList<Boss>, heroes: MutableList<Hero>) {
     println("Baal (Bosskampf) erscheint nachdem die Jaffa Krieger nutzlos gewesen sind")
@@ -80,6 +92,12 @@ fun bossFight(bosses: MutableList<Boss>, heroes: MutableList<Hero>) {
         println("Bosskampf beendet")
         return
     }
+
+    /**
+     * Dieser Code simuliert einen Bosskampf zwischen Helden und Bossen.
+     * Jeder Held führt Aktionen aus, die abhängig von ihrem Heldentyp sind, um Schaden am Boss zu verursachen.
+     * Der Boss fügt dann einem zufälligen Helden Schaden zu. Wenn ein Boss besiegt ist, wird die Schleife beendet.
+     */
 
     // Initialisiere die Anzahl der Runden außerhalb der Schleife
     var countRounds: Int = 1
@@ -132,6 +150,14 @@ fun bossFight(bosses: MutableList<Boss>, heroes: MutableList<Hero>) {
             randomHero.takeDamage(bossActionDamage)
         }
 
+        /**
+         * Dieser Code filtert die überlebenden Helden und setzt die Liste der Helden zurück.
+         * Die globale Variable "ItemUsed" wird zurückgesetzt und die Anzahl der Runden wird erhöht.
+         * Wenn alle Bosse besiegt wurden, wird eine entsprechende Meldung ausgegeben und die Schleife beendet.
+         * Wenn alle Helden besiegt wurden, wird eine Game Over-Meldung ausgegeben.
+         */
+
+
         val survivingHeroes: MutableList<Hero> = heroes.filter { it.healthPoints > 0 }.toMutableList()
         heroes.clear()
         heroes.addAll(survivingHeroes)
@@ -151,7 +177,12 @@ fun bossFight(bosses: MutableList<Boss>, heroes: MutableList<Hero>) {
     }
 }
 
-
+/**
+ * Diese Funktion enthält die verschiedenen Aktionen, die Jack ausführen kann.
+ * Je nach Auswahl des Spielers wird eine bestimmte Aktion ausgeführt und der entsprechende Schaden oder Effekt zurückgegeben.
+ * Die Auswahlmöglichkeiten umfassen den Einsatz verschiedener Waffen, Heilung und Buffs.
+ * Der Code enthält auch Fehlerbehandlung für den Fall, dass bestimmte Aktionen nicht möglich sind.
+ */
 
 fun actionsJack(): Int {
     val jack = heroes[0]
@@ -224,6 +255,11 @@ fun actionsJack(): Int {
 }
 
 
+/**
+ * Diese Funktion definiert die Aktionen für den Charakter "Samantha".
+ * Der Benutzer kann aus einer Liste von Aktionen auswählen, die verschiedene Waffen und einen Heilungsverband umfassen.
+ * Die Funktion gibt den verursachten Schaden zurück.
+ */
 fun actionsSamantha(): Int {
     val sam = heroes[1]
     println("${sam.name} ist am Zug")
@@ -256,40 +292,50 @@ fun actionsSamantha(): Int {
             println("Samantha Carter aktiviert den $weapon und entfesselt einen zerstörerischen Energiestrahl auf den Feind! Die Energieentladung trifft und verursacht $damage Schadenspunkte.")
             damage
         }
-
         4 -> {
             val weapon = "Goa'uld Handgerät"
             val damage = 40
+
+            // Die Aktion und der verursachte Schaden werden ausgegeben
             println("Samantha Carter zieht das $weapon hervor und feuert einen vernichtenden Energiestrahl auf den Feind! Die mächtige Entladung verursacht $damage Schadenspunkte.")
             damage
         }
-
         5 -> {
             if (ItemUsed == true) {
+                // Die Meldung wird ausgegeben, dass die Heilung bereits genutzt wurde
                 print("Die Heilung wurde bereits genutzt warte bis zur nächsten Runde")
+
+                // Die Funktion wird erneut aufgerufen, um eine neue Aktion auszuwählen
                 actionsSamantha()
-
-            } else
-
+            } else {
                 try {
+                    // Ein Verband wird genutzt und der Zustand "ItemUsed" wird auf true gesetzt
                     Bandages[0].use(sam)
                     ItemUsed = true
                 } catch (e: IndexOutOfBoundsException) {
+                    // Die Meldung wird ausgegeben, dass keine Verbände mehr vorhanden sind
                     println("Es gibt keine Verbände mehr im Rucksack.")
+
+                    // Die Funktion wird erneut aufgerufen, um eine neue Aktion auszuwählen
                     actionsSamantha()
                 }
+            }
             0
         }
-
-
         else -> {
+            // Die Meldung wird ausgegeben, dass die Auswahl ungültig ist
             println("Ungültige Auswahl")
             0
         }
     }
-
 }
 
+
+/**
+ * Dieser Code ermöglicht es dem Charakter "TealC" verschiedene Aktionen auszuführen,
+ * wie z.B. den Einsatz von Waffen oder Heilung.
+ * Je nach Auswahl wird der entsprechende Schaden verursacht oder eine Aktion ausgeführt.
+ */
 
 fun actionsTealC(): Int {
     val tealC = heroes[2]
@@ -300,6 +346,7 @@ fun actionsTealC(): Int {
     println("3 = Zat’nik’tel (25) Schaden")
     println("4 = Granate (30 AOE)")
     println("5 = Verband zum Heilen (50)")
+
     val choice = readlnOrNull()?.toIntOrNull() ?: 0
 
     return when (choice) {
@@ -335,9 +382,7 @@ fun actionsTealC(): Int {
             if (ItemUsed == true) {
                 print("Die Heilung wurde bereits genutzt warte bis zur nächsten Runde")
                 actionsTealC()
-
-            } else
-
+            } else {
                 try {
                     Bandages[0].use(tealC)
                     ItemUsed = true
@@ -345,6 +390,7 @@ fun actionsTealC(): Int {
                     println("Es gibt keine Verbände mehr im Rucksack.")
                     actionsTealC()
                 }
+            }
             0
         }
 
