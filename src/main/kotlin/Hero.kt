@@ -9,28 +9,17 @@ open class Hero(val name:String, var healthPoints:Int, var debuff:Boolean = fals
         healthPoints -= damage
         if (damage == 0) {
             println()
-        }else
+        } else
             if (healthPoints <= 0) {
                 println("Der Feind ist tot")
 
             } else
-                println("Der $name hat noch $healthPoints Lebenspunkte")
+                println("$name hat noch $healthPoints Lebenspunkte")
     }
-    open fun shout(buffHealth:Int){
+
+    open fun shout(buffHealth: Int) {
         val buff = healthPoints / 100 * 20
         healthPoints + buff
-    }
-    fun debuffHealth(target:Hero){
-        val originalHealthPoints = target.healthPoints
-        val debuffHealthPoints:Int = originalHealthPoints /100 * 10
-        if (target.debuff == true){
-            println(" Du wurdest mit Naniten infiziert und verlierst jede Runde 10% Lebenspunkte")
-            if (target.healthPoints < originalHealthPoints * 0.2)
-                debuff = false
-            print("Du bist nicht mehr infiziert deine Lebenspuntke betragen aber nur noch :${target.healthPoints} Lebenspunkte")
-        }else
-            target.healthPoints -= debuffHealthPoints
-        println("Du wirst schwächer du verlierst $debuffHealthPoints Lebenspunkte")
     }
 }
 

@@ -38,7 +38,11 @@ val minionActions = listOf(PlasmaRepeater(),Schlag())
 
 
 //Boss
-val BossBaal:Boss = Boss("Ba'al",800)
+val BossBaal:Boss = Boss("Ba'al",300,false)
+
+//Minion
+val kullWarrior:Minion = Minion("Kull Krieger", 300,false)
+
 val bossPlusMinion:MutableList<Boss> = mutableListOf(
     BossBaal)
 fun main() {
