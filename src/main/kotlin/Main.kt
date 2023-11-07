@@ -1,8 +1,8 @@
 //Heros
 val heroes:MutableList<Hero> = mutableListOf(
-    Soldier("Jack O Neil", 400,),
-    Scientist("Samantha Carter",350),
-    Jaffa("Teal C",450))
+    Soldier("Jack O Neil", 400,false),
+    Scientist("Samantha Carter",350,false),
+    Jaffa("Teal C",450,false))
 
 //Eventuel später zum selber aussuchen der Heldentruppe
 val daniel:Hero = Hero("Daniel Jackson",10)
@@ -23,7 +23,13 @@ var ItemUsed = false
 val Bandages:MutableList<Heal> = mutableListOf(
     Heal("Verband-1",50),
     Heal("Verband-2",50),
-    Heal("Verband-3",50)
+    Heal("Verband-3",50),
+    Heal("Verband-4",50),
+    Heal("Verband-5",50),
+    Heal("Verband-6",50),
+    Heal("Verband-7",50),
+    Heal("Verband-8",50),
+    Heal("Verband-9",50)
 )
 
 val footSoldierActions = listOf(StabwaffenSchuss(), TacTac(), Cannon(), Schlag(), HandGerät(), Zetnitika())
