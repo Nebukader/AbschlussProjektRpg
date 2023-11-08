@@ -8,62 +8,69 @@
  */
 fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>, bosses: MutableList<Boss>) {
     // Die Schleife läuft so lange, wie noch Runden übrig sind und Fußsoldaten vorhanden sind
-    while (footSoldiers.isNotEmpty()) {
-        println("Die Runde beginnt Runde")
+    try {
 
-        // Schleife für die Helden
-        for (hero in heroes) {
-            // Die Schleife wird beendet, wenn keine Fußsoldaten mehr übrig sind
-            if (footSoldiers.isEmpty()) {
-                break
-            }
 
-            // Zufällige Auswahl eines Fußsoldaten
-            val selectedFootSoldier = footSoldiers.random()
-
-            // Schaden wird abhängig vom Heldentyp berechnet
-            val damage = when (hero) {
-                is Soldier -> actionsJack()
-                is Scientist -> actionsSamantha()
-                is Jaffa -> actionsTealC()
-                else -> 0
-            }
-
-            // Fußsoldat erleidet Schaden
-            selectedFootSoldier.takeDamage(damage)
-
-            // Wenn der Fußsoldat keine Lebenspunkte mehr hat, wird er entfernt
-            if (selectedFootSoldier.healthPoints <= 0) {
-                println("${selectedFootSoldier.name} wurde bezwungen")
-                footSoldiers.remove(selectedFootSoldier)
-            }
-        }
-
-        // Schleife für die Fußsoldaten
-        for (soldier in footSoldiers) {
-            // Zufällige Aktion des Fußsoldaten
-            var damageHero = soldier.randomAction(footSoldierActions)
+        while (footSoldiers.isNotEmpty()) {
+            println("Die Runde beginnt Runde")
 
             // Schleife für die Helden
-            val survivingHeroes: MutableList<Hero> = mutableListOf()
-
-            // Ein zufälliger Held erleidet Schaden
-            heroes.random().takeDamage(damageHero)
-
             for (hero in heroes) {
-                if (hero.healthPoints > 0) {
-                    survivingHeroes.add(hero)
-                } else {
-                    println("${hero.name} ist im Kampf gefallen")
+                // Die Schleife wird beendet, wenn keine Fußsoldaten mehr übrig sind
+                if (footSoldiers.isEmpty()) {
+                    break
+                }
+
+                // Zufällige Auswahl eines Fußsoldaten
+                val selectedFootSoldier = footSoldiers.random()
+
+
+                // Schaden wird abhängig vom Heldentyp berechnet
+                val damage = when (hero) {
+                    is Soldier -> actionsJack()
+                    is Scientist -> actionsSamantha()
+                    is Jaffa -> actionsTealC()
+                    else -> 0
+                }
+
+                // Fußsoldat erleidet Schaden
+                selectedFootSoldier.takeDamage(damage)
+
+                // Wenn der Fußsoldat keine Lebenspunkte mehr hat, wird er entfernt
+                if (selectedFootSoldier.healthPoints <= 0) {
+                    println("${selectedFootSoldier.name} wurde bezwungen")
+                    footSoldiers.remove(selectedFootSoldier)
                 }
             }
 
-            // Überlebende Helden werden aktualisiert
-            // Globale Variable wird zurück gesetzt damit die Helden nach der Runde die Heilung wieder nutzen können
-            heroes.clear()
-            heroes.addAll(survivingHeroes)
-            ItemUsed = false
+            // Schleife für die Fußsoldaten
+            for (soldier in footSoldiers) {
+                // Zufällige Aktion des Fußsoldaten
+                var damageHero = soldier.randomAction(footSoldierActions)
+
+                // Schleife für die Helden
+                val survivingHeroes: MutableList<Hero> = mutableListOf()
+
+                // Ein zufälliger Held erleidet Schaden
+                heroes.random().takeDamage(damageHero)
+
+                for (hero in heroes) {
+                    if (hero.healthPoints > 0) {
+                        survivingHeroes.add(hero)
+                    } else {
+                        println("${hero.name} ist im Kampf gefallen")
+                    }
+                }
+
+                // Überlebende Helden werden aktualisiert
+                // Globale Variable wird zurück gesetzt damit die Helden nach der Runde die Heilung wieder nutzen können
+                heroes.clear()
+                heroes.addAll(survivingHeroes)
+                ItemUsed = false
+            }
         }
+    } catch (e: IndexOutOfBoundsException) {
+
     }
 
     // Wenn keine Helden mehr übrig sind, ist das Spiel verloren
@@ -187,8 +194,18 @@ fun bossFight(bosses: MutableList<Boss>, heroes: MutableList<Hero>) {
  * Der Code enthält auch Fehlerbehandlung für den Fall, dass bestimmte Aktionen nicht möglich sind.
  */
 
+
+/**
+ * Diese Funktion enthält die verschiedenen Aktionen, die Jack ausführen kann.
+ * Je nach Auswahl des Spielers wird eine bestimmte Aktion ausgeführt und der entsprechende Schaden oder Effekt zurückgegeben.
+ * Die Auswahlmöglichkeiten umfassen den Einsatz verschiedener Waffen, Heilung und Buffs.
+ * Der Code enthält auch Fehlerbehandlung für den Fall, dass bestimmte Aktionen nicht möglich sind.
+ */
+
 fun actionsJack(): Int {
     val jack = heroes[0]
+
+    //Logik für die Debuff überprüfung
     println("${jack.name} ist am Zug")
     val originalHealthPoints = jack.healthPoints
     val debuffHealthPoints: Int = originalHealthPoints / 100 * 10
@@ -197,7 +214,8 @@ fun actionsJack(): Int {
         jack.healthPoints -= debuffHealthPoints
         println("Du wirst schwächer und verlierst $debuffHealthPoints Lebenspunkte")
     }
-        println("Bitte wählen sie eine Aktion aus")
+
+    println("Bitte wählen sie eine Aktion aus")
     println("1 = P90- Maschinenpistole (15) Schaden")
     println("2 = Anfeuern (20% Health Buff)")
     println("3 = Zat’nik’tel (25) Schaden")
@@ -272,6 +290,16 @@ fun actionsJack(): Int {
  */
 fun actionsSamantha(): Int {
     val sam = heroes[1]
+
+    //Logik für die Debuff überprüfung
+    val originalHealthPoints = sam.healthPoints
+    val debuffHealthPoints: Int = originalHealthPoints / 100 * 10
+    if (sam.debuff == true) {
+        println("Du wurdest mit Naniten infiziert und verlierst jede Runde 10% Lebenspunkte")
+        sam.healthPoints -= debuffHealthPoints
+        println("Du wirst schwächer und verlierst $debuffHealthPoints Lebenspunkte")
+    }
+
     println("${sam.name} ist am Zug")
     println("Bitte wählen sie eine Aktion aus")
     println("1 = P90- Maschinenpistole (15) Schaden")
@@ -302,6 +330,7 @@ fun actionsSamantha(): Int {
             println("Samantha Carter aktiviert den $weapon und entfesselt einen zerstörerischen Energiestrahl auf den Feind! Die Energieentladung trifft und verursacht $damage Schadenspunkte.")
             damage
         }
+
         4 -> {
             val weapon = "Goa'uld Handgerät"
             val damage = 40
@@ -310,6 +339,7 @@ fun actionsSamantha(): Int {
             println("Samantha Carter zieht das $weapon hervor und feuert einen vernichtenden Energiestrahl auf den Feind! Die mächtige Entladung verursacht $damage Schadenspunkte.")
             damage
         }
+
         5 -> {
             if (ItemUsed == true) {
                 // Die Meldung wird ausgegeben, dass die Heilung bereits genutzt wurde
@@ -332,6 +362,7 @@ fun actionsSamantha(): Int {
             }
             0
         }
+
         else -> {
             // Die Meldung wird ausgegeben, dass die Auswahl ungültig ist
             println("Ungültige Auswahl")
@@ -349,6 +380,16 @@ fun actionsSamantha(): Int {
 
 fun actionsTealC(): Int {
     val tealC = heroes[2]
+
+    //Logik für die Debuff überprüfung
+    val originalHealthPoints = tealC.healthPoints
+    val debuffHealthPoints: Int = originalHealthPoints / 100 * 10
+    if (tealC.debuff == true) {
+        println("Du wurdest mit Naniten infiziert und verlierst jede Runde 10% Lebenspunkte")
+        tealC.healthPoints -= debuffHealthPoints
+        println("Du wirst schwächer und verlierst $debuffHealthPoints Lebenspunkte")
+    }
+
     println("${tealC.name} ist am Zug")
     println("Bitte wählen sie eine Aktion aus")
     println("1 = Stabwaffe (35) Schaden")
@@ -412,7 +453,8 @@ fun actionsTealC(): Int {
     }
 
 }
-fun applyDebuff(targetHero:Hero) {
+
+fun applyDebuff(targetHero: Hero) {
     val originalHealthPoints = targetHero.healthPoints
     val debuffHealthPoints: Int = originalHealthPoints / 100 * 10
     targetHero.debuff = true

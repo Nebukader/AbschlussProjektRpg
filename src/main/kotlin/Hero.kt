@@ -32,20 +32,35 @@ fun printInfoList(hero: MutableList<Hero>) {
 
 class Soldier(name: String, healthPoints: Int, debuff: Boolean) : Hero(name, healthPoints, debuff) {
     override fun action(weaponName: String, damage: Int): Int {
+        println("Name:$name")
+        println("HP:$healthPoints")
+        println()
+        println("$name macht seinen Angriff")
+        println()
 
-        println("Der Angriff erfolgt $name greift mit seiner $weaponName an und verursacht $damage Schadenspunkte")
         return damage
     }
 }
 
 class Scientist(name: String, healthPoints: Int, debuff: Boolean) : Hero(name, healthPoints, debuff) {
+
     override fun action(weaponName: String, damage: Int): Int {
+        println("Name:$name")
+        println("HP:$healthPoints")
+        println()
+        println("$name macht seinen Angriff")
+        println()
         return damage
     }
 }
 
 class Jaffa(name: String, healthPoints: Int, debuff: Boolean) : Hero(name, healthPoints, debuff) {
     override fun action(weaponName: String, damage: Int): Int {
+        println("Name:$name")
+        println("HP:$healthPoints")
+        println()
+        println("$name macht seinen Angriff")
+        println()
         return damage
     }
 }

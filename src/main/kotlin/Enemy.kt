@@ -37,19 +37,20 @@ open class Enemy(var name: String, var healthPoints: Int) {
 
 
     open fun takeDamage(damage: Int) {
-        healthPoints -= damage
-        if (damage == 0) {
-            println()
-        } else
             if (healthPoints <= 0) {
-                println("Der Feind ist tot")
+                return
+            }
 
-            } else
-                println("Der $name hat noch $healthPoints Lebenspunkte")
-    }
+            healthPoints -= damage
+
+            if (healthPoints <= 0) {
+                println("Der Boss ist besiegt!")
+            }
+        }
 }
 
 open class FootSoldier(name: String, healthPoints: Int) : Enemy(name, healthPoints) {
+
 }
 
 //Nur zum Testen genutzt
@@ -62,7 +63,11 @@ fun printInfoList(footSoldiers: MutableList<FootSoldier>) {
 open class Boss(name: String, healthPoints: Int,var summonend: Boolean) : Enemy(name, healthPoints) {
 
     fun bossRandomAction(): Int {
+        println("Name:$name")
+        println("HP:$healthPoints")
+        println()
         println("$name macht seinen Angriff")
+        println()
         return randomAction(bossActions)
     }
 
@@ -77,8 +82,24 @@ open class Boss(name: String, healthPoints: Int,var summonend: Boolean) : Enemy(
 }
 
 open class Minion(name: String, healthPoints: Int, summonend: Boolean) : Boss(name, healthPoints,summonend) {
+    override fun takeDamage(damage: Int) {
+        if (healthPoints <= 0) {
+            return
+        }
+
+        healthPoints -= damage
+
+        if (healthPoints <= 0) {
+            println("Der MiniBoss ist besiegt!")
+        }
+    }
+
     fun minionRandomAction(): Int {
-        println("Der $name macht seinen Angriff")
+        println("Name:$name")
+        println("HP:$healthPoints")
+        println()
+        println("$name macht seinen Angriff")
+        println()
         return randomAction(minionActions)
     }
 }

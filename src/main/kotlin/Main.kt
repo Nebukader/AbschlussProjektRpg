@@ -4,12 +4,6 @@ val heroes:MutableList<Hero> = mutableListOf(
     Scientist("Samantha Carter",350,false),
     Jaffa("Teal C",450,false))
 
-//Eventuel später zum selber aussuchen der Heldentruppe
-val daniel:Hero = Hero("Daniel Jackson",10)
-val bratak:Hero = Hero("Bratak",10)
-val cameron:Hero = Hero("Cameron Mitchell", 10)
-val jonas:Hero = Hero("Jonnas Quinn",10)
-
 //Villains
 
 val footSoldiers:MutableList<FootSoldier> = mutableListOf(
@@ -36,7 +30,6 @@ val footSoldierActions = listOf(StabwaffenSchuss(), TacTac(), Cannon(), Schlag()
 val bossActions = listOf(StabwaffenSchuss(),TacTac(), Schlag(), HandGerät(),AlkeshBomber(),Todesgleiter(),Debuff("Naniten",10))
 val minionActions = listOf(PlasmaRepeater(),Schlag())
 
-
 //Boss
 val BossBaal:Boss = Boss("Ba'al",300,false)
 
@@ -47,4 +40,5 @@ val bossPlusMinion:MutableList<Boss> = mutableListOf(
     BossBaal)
 fun main() {
 
+    gameplay(footSoldiers,heroes,bossPlusMinion)
 }
