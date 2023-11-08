@@ -1,3 +1,4 @@
+//Die Klasse Item ist eine abstrakte Klasse, die die Basisklasse für alle Items darstellt.
 open class Item(val name: String) {
 
     //Hier wird als Parameter die Klasse Hero genutzt, um an den Namen des Helden zu kommen
@@ -6,6 +7,7 @@ open class Item(val name: String) {
     }
 }
 
+//Die Klasse Heal erbt von der Klasse Item und erweitert die Methode use().
 open class Heal(name:String, private var healingAmount: Int):Item(name){
     override fun use(user: Hero) {
         super.use(user)
@@ -15,7 +17,7 @@ open class Heal(name:String, private var healingAmount: Int):Item(name){
         }
     }
 
-    //Damit von außen die funktion nicht verändert werden kann ist diese auf Private da sie nur innerhalb der Klasse genutzt werden soll
+    //Diese Methode wird verwendet, um den Helden zu heilen.
     private fun heal(user:Hero){
         user.healthPoints += healingAmount
         println("${user.name} heilt sich um $healingAmount Gesundheitspunkte. Deine aktuellen gesundheitspunkte sind: ${user.healthPoints}\"")
@@ -24,7 +26,7 @@ open class Heal(name:String, private var healingAmount: Int):Item(name){
 
 }
 
-
+//Die Klasse Grenade erbt von der Klasse Item und erweitert die Methode use().
 open class Grenade(name:String, private val enemys: MutableList<FootSoldier>):Item(name) {
     val damage = 30
 
@@ -37,8 +39,3 @@ open class Grenade(name:String, private val enemys: MutableList<FootSoldier>):It
 
     }
 }
-
-val bandage: Heal =Heal("Verband",20)
-val bandage1:Heal =Heal("Verband",20)
-val bandage2:Heal =Heal("Verband",20)
-
