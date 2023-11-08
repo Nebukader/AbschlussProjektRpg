@@ -41,19 +41,24 @@ open class Enemy(var name: String, var healthPoints: Int) {
         healthPoints -= damage
 
         if (healthPoints <= 0) {
-            println("Der Boss ist besiegt!")
+            println("Der gegner $name ist besiegt!")
         }
     }
 }
 
 // **Erbt von der Klasse Enemy**
-open class FootSoldier(name: String, healthPoints: Int) : Enemy(name, healthPoints)
+open class FootSoldier(name: String, healthPoints: Int) : Enemy(name, healthPoints){
+    override fun takeDamage(damage: Int) {
+
+        super.takeDamage(damage)
+    }
+}
 
 // **Erbt von der Klasse Enemy**
 open class Boss(name: String, healthPoints: Int,var summonend: Boolean) : Enemy(name, healthPoints) {
 
     // **Gibt den Namen und die Gesundheitspunkte des Bosses aus**
-    fun bossRandomAction(): Int {
+    open fun bossRandomAction(): Int {
         println()
         println("Name:$name")
         println("HP:$healthPoints")
@@ -72,6 +77,7 @@ open class Boss(name: String, healthPoints: Int,var summonend: Boolean) : Enemy(
         println("Hahaha du dachtest schon du hast gewonnen, aber hier kommt mein Kull Krieger")
 
     }
+
 }
 
 // **Erbt von der Klasse Boss**
@@ -89,8 +95,8 @@ open class Minion(name: String, healthPoints: Int, summonend: Boolean) : Boss(na
             println("Der MiniBoss ist besiegt!")
         }
     }
-/*
-    fun minionRandomAction(): Int {
+
+    override fun bossRandomAction(): Int {
         println()
         println("Name:$name")
         println("HP:$healthPoints")
@@ -98,7 +104,7 @@ open class Minion(name: String, healthPoints: Int, summonend: Boolean) : Boss(na
         println("$name macht seinen Angriff")
         println()
         return randomAction(minionActions)
+        return super.bossRandomAction()
     }
 
- */
 }
