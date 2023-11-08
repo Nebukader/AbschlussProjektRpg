@@ -35,10 +35,10 @@ fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>, 
 
                 // Fußsoldat erleidet Schaden
                 selectedFootSoldier.takeDamage(damage)
+                println("Der Jaffa ${selectedFootSoldier.name} erleidet $damage Schadenspunkte und hat noch ${selectedFootSoldier.healthPoints} HP")
 
                 // Wenn der Fußsoldat keine Lebenspunkte mehr hat, wird er entfernt
                 if (selectedFootSoldier.healthPoints <= 0) {
-                    println("${selectedFootSoldier.name} wurde bezwungen")
                     footSoldiers.remove(selectedFootSoldier)
                 }
             }
@@ -47,6 +47,7 @@ fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>, 
             for (soldier in footSoldiers) {
                 // Zufällige Aktion des Fußsoldaten
                 val damageHero = soldier.randomAction(footSoldierActions)
+
 
                 // Schleife für die Helden
                 val survivingHeroes: MutableList<Hero> = mutableListOf()
@@ -128,20 +129,21 @@ fun bossFight(bosses: MutableList<Boss>, heroes: MutableList<Hero>) {
                 else -> 0
             }
 
-            if (kullWarrior.healthPoints <= 0){
+            if (kullWarrior.healthPoints <= 0) {
+                bosses.remove(kullWarrior)
                 println("Der Kull Krieger wurde bezwungen, nun kann sich SG-1 wieder auf den Systemlord konzentrieren")
             }
             // Zufälligen Boss auswählen und Schaden zufügen
-            if (bosses.contains(kullWarrior)){
+            if (bosses.contains(kullWarrior)) {
                 println("SG-1 erkennt die Gefahr und nimmer den Kull Krieger als erstes ins Visier !")
                 kullWarrior.takeDamage(damage)
-            }else {
+            } else {
                 bosses[0].takeDamage(damage)
             }
-            if (BossBaal.healthPoints < originalHealthPoints / 2){
-                if (BossBaal.summonend == false){
+            if (BossBaal.healthPoints < originalHealthPoints / 2) {
+                if (BossBaal.summonend == false) {
                     BossBaal.summonLowHealth()
-                }else
+                } else
                     println()
             }
 
@@ -151,15 +153,22 @@ fun bossFight(bosses: MutableList<Boss>, heroes: MutableList<Hero>) {
             }
 
             // Angriff des Bosses auf einen zufälligen Helden
-            val randomBoss = bosses.random()
-            val randomHero = heroes.random()
-            val bossActionDamage = randomBoss.bossRandomAction()
-            if (bossActionDamage == 10){
-                randomHero.debuff = true
+            for (boss in bosses) {
+                val randomBoss = bosses.random()
+                val randomHero = heroes.random()
+                val bossActionDamage = randomBoss.bossRandomAction()
+                if (bossActionDamage == 10) {
+                    randomHero.debuff = true
+                }
+                randomHero.takeDamage(bossActionDamage)
             }
-            randomHero.takeDamage(bossActionDamage)
+            // Überprüfen, ob ein Boss-Gegner besiegt wurde
+            bosses.removeAll { it.healthPoints <= 0 }
+            if (bosses.isEmpty()) {
+                println("SG-1 hat alle Boss-Gegner besiegt.")
+                break
+            }
         }
-
         /**
          * Dieser Code filtert die überlebenden Helden und setzt die Liste der Helden zurück.
          * Die globale Variable "ItemUsed" wird zurückgesetzt und die Anzahl der Runden wird erhöht.
@@ -186,7 +195,6 @@ fun bossFight(bosses: MutableList<Boss>, heroes: MutableList<Hero>) {
         println("Game Over! Alle Helden wurden besiegt!")
     }
 }
-
 
 
 /**
