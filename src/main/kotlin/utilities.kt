@@ -402,3 +402,20 @@ fun actionsTealC(): Int {
     }
 
 }
+fun applyDebuff(targetHero:Hero) {
+    val originalHealthPoints = targetHero.healthPoints
+    val debuffHealthPoints: Int = originalHealthPoints / 100 * 10
+    targetHero.debuff = true
+
+    if (targetHero.debuff) {
+        println("Du wurdest mit Naniten infiziert und verlierst jede Runde 10% Lebenspunkte")
+        targetHero.healthPoints -= debuffHealthPoints
+        println("Du wirst schwächer und verlierst $debuffHealthPoints Lebenspunkte")
+
+        if (targetHero.healthPoints < originalHealthPoints * 0.2) {
+            targetHero.debuff = false
+        }
+        println("Du bist nicht mehr infiziert, deine Lebenspunkte betragen aber nur noch: ${targetHero.healthPoints} Lebenspunkte")
+    }
+}
+

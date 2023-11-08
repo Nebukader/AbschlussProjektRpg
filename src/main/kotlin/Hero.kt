@@ -1,9 +1,8 @@
-open class Hero(val name:String, var healthPoints:Int, var debuff:Boolean = false) {
-
+open class Hero(val name: String, var healthPoints: Int, var debuff: Boolean = false) {
     open fun action(weaponName: String, damage: Int): Int {
-        println("Der Angriff erfolgt $name greift mit seiner $weaponName an und verursacht $damage Schadenspunkte")
         return damage
     }
+
 
     open fun takeDamage(damage: Int) {
         healthPoints -= damage
@@ -23,25 +22,43 @@ open class Hero(val name:String, var healthPoints:Int, var debuff:Boolean = fals
     }
 }
 
+
 // Methode nur zum Testen anfanges gebraucht !
-fun printInfoList(hero:MutableList<Hero>) {
+fun printInfoList(hero: MutableList<Hero>) {
     for (hero in heroes) {
         println("${hero.name}: Health Points = ${hero.healthPoints}")
     }
 }
-class Soldier(name: String,healthPoints: Int,debuff: Boolean):Hero(name,healthPoints,debuff) {
+
+class Soldier(name: String, healthPoints: Int, debuff: Boolean) : Hero(name, healthPoints, debuff) {
+    override fun action(weaponName: String, damage: Int): Int {
+
+        val originalHealthPoints = healthPoints
+        val debuffHealthPoints: Int = originalHealthPoints / 100 * 10
+        if (debuff == true) {
+            println("Du wurdest mit Naniten infiziert und verlierst jede Runde 10% Lebenspunkte")
+            healthPoints -= debuffHealthPoints
+            println("Du wirst schwächer und verlierst $debuffHealthPoints Lebenspunkte")
+
+            if (healthPoints < originalHealthPoints * 0.2) {
+                debuff = false
+            }
+            println("Du bist nicht mehr infiziert, deine Lebenspunkte betragen aber nur noch: ${healthPoints} Lebenspunkte")
+        }
+
+
+        println("Der Angriff erfolgt $name greift mit seiner $weaponName an und verursacht $damage Schadenspunkte")
+        return damage
+    }
+}
+
+class Scientist(name: String, healthPoints: Int, debuff: Boolean) : Hero(name, healthPoints, debuff) {
     override fun action(weaponName: String, damage: Int): Int {
         return damage
     }
 }
 
-class Scientist(name: String,healthPoints: Int,debuff: Boolean):Hero(name,healthPoints,debuff) {
-    override fun action(weaponName: String, damage: Int): Int {
-        return damage
-    }
-}
-
-class Jaffa(name: String,healthPoints: Int,debuff: Boolean):Hero(name,healthPoints,debuff) {
+class Jaffa(name: String, healthPoints: Int, debuff: Boolean) : Hero(name, healthPoints, debuff) {
     override fun action(weaponName: String, damage: Int): Int {
         return damage
     }
