@@ -6,7 +6,7 @@ class TacTac : EnemyAction("Tacluchnatagamuntoron", 55)
 class Cannon : EnemyAction("Goa'uld Cannon", 40)
 
 class Schlag : EnemyAction("Schlag", 15)
-class HandGerät : EnemyAction("Kara'Kesh", 60)
+class HandGeraet : EnemyAction("Kara'Kesh", 60)
 class Zetnitika : EnemyAction("Zat'ni katel", 25)
 class AlkeshBomber : EnemyAction("Alkesh Bomber", 100)
 
@@ -22,13 +22,13 @@ class Debuff( name: String, damage: Int) : EnemyAction(name, damage)
 open class Enemy(var name: String, var healthPoints: Int) {
 
     // **Speichert den Namen des Feindes**
-    val enemyName = name
+    private val enemyName = name
 
     // **Wählt einen zufälligen Angriff aus der Liste der möglichen Angriffe**
     fun randomAction(attacks: List<EnemyAction>): Int {
         val randomAttacks = attacks.random()
         val actionName = randomAttacks.name
-        println("Der Feind ${enemyName} greift mit $actionName an und verursacht ${randomAttacks.damage} Schadenspunkte")
+        println("Der Feind $enemyName greift mit $actionName an und verursacht ${randomAttacks.damage} Schadenspunkte")
         return randomAttacks.damage
     }
 
@@ -48,13 +48,6 @@ open class Enemy(var name: String, var healthPoints: Int) {
 
 // **Erbt von der Klasse Enemy**
 open class FootSoldier(name: String, healthPoints: Int) : Enemy(name, healthPoints)
-
-//Nur zum Testen genutzt
-fun printInfoList(footSoldiers: MutableList<FootSoldier>) {
-    for (footSoldier in footSoldiers) {
-        println(" Health Points = ${footSoldier.healthPoints}")
-    }
-}
 
 // **Erbt von der Klasse Enemy**
 open class Boss(name: String, healthPoints: Int,var summonend: Boolean) : Enemy(name, healthPoints) {
@@ -96,7 +89,7 @@ open class Minion(name: String, healthPoints: Int, summonend: Boolean) : Boss(na
             println("Der MiniBoss ist besiegt!")
         }
     }
-
+/*
     fun minionRandomAction(): Int {
         println()
         println("Name:$name")
@@ -106,4 +99,6 @@ open class Minion(name: String, healthPoints: Int, summonend: Boolean) : Boss(na
         println()
         return randomAction(minionActions)
     }
+
+ */
 }
