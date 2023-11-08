@@ -1,5 +1,6 @@
 
 open class EnemyAction(val name: String, val damage: Int)
+// **Definiert die verschiedenen Angriffe der Feinde**
 class StabwaffenSchuss : EnemyAction("Stabwaffen Schuss", 25)
 class TacTac : EnemyAction("Tacluchnatagamuntoron", 55)
 class Cannon : EnemyAction("Goa'uld Cannon", 40)
@@ -12,22 +13,18 @@ class AlkeshBomber : EnemyAction("Alkesh Bomber", 100)
 class Todesgleiter : EnemyAction("Todesgleiter", 80)
 class PlasmaRepeater : EnemyAction("Plasma-Repeater", 30)
 
-class Debuff( name: String, damage: Int) : EnemyAction(name, damage) {
-   /* init {
-        applyDebuff(target)
-    }
-    */
-
-}
+class Debuff( name: String, damage: Int) : EnemyAction(name, damage)
 
 
 // Die möglichen Aktionen, die der Feind ausführen kann, werden in einer Liste gespeichert.
 // Diese Liste enthält Aktionen wie "Schlag" und "Stabwaffe" als vordefinierte Instanzen.
+// **Basisklasse für alle Feinde**
 open class Enemy(var name: String, var healthPoints: Int) {
 
+    // **Speichert den Namen des Feindes**
     val enemyName = name
 
-
+    // **Wählt einen zufälligen Angriff aus der Liste der möglichen Angriffe**
     fun randomAction(attacks: List<EnemyAction>): Int {
         val randomAttacks = attacks.random()
         val actionName = randomAttacks.name
@@ -35,23 +32,22 @@ open class Enemy(var name: String, var healthPoints: Int) {
         return randomAttacks.damage
     }
 
-
+    // **Verringert die Gesundheitspunkte des Feindes um den angegebenen Wert**
     open fun takeDamage(damage: Int) {
-            if (healthPoints <= 0) {
-                return
-            }
-
-            healthPoints -= damage
-
-            if (healthPoints <= 0) {
-                println("Der Boss ist besiegt!")
-            }
+        if (healthPoints <= 0) {
+            return
         }
+
+        healthPoints -= damage
+
+        if (healthPoints <= 0) {
+            println("Der Boss ist besiegt!")
+        }
+    }
 }
 
-open class FootSoldier(name: String, healthPoints: Int) : Enemy(name, healthPoints) {
-
-}
+// **Erbt von der Klasse Enemy**
+open class FootSoldier(name: String, healthPoints: Int) : Enemy(name, healthPoints)
 
 //Nur zum Testen genutzt
 fun printInfoList(footSoldiers: MutableList<FootSoldier>) {
@@ -60,9 +56,12 @@ fun printInfoList(footSoldiers: MutableList<FootSoldier>) {
     }
 }
 
+// **Erbt von der Klasse Enemy**
 open class Boss(name: String, healthPoints: Int,var summonend: Boolean) : Enemy(name, healthPoints) {
 
+    // **Gibt den Namen und die Gesundheitspunkte des Bosses aus**
     fun bossRandomAction(): Int {
+        println()
         println("Name:$name")
         println("HP:$healthPoints")
         println()
@@ -71,6 +70,7 @@ open class Boss(name: String, healthPoints: Int,var summonend: Boolean) : Enemy(
         return randomAction(bossActions)
     }
 
+    // **Ruft die Methode summonLowHealth auf**
     open fun summonLowHealth() {
 
         bossPlusMinion.add(kullWarrior)
@@ -81,7 +81,10 @@ open class Boss(name: String, healthPoints: Int,var summonend: Boolean) : Enemy(
     }
 }
 
+// **Erbt von der Klasse Boss**
 open class Minion(name: String, healthPoints: Int, summonend: Boolean) : Boss(name, healthPoints,summonend) {
+
+    // **Verringert die Gesundheitspunkte des Minions um den angegebenen Wert**
     override fun takeDamage(damage: Int) {
         if (healthPoints <= 0) {
             return
@@ -92,14 +95,5 @@ open class Minion(name: String, healthPoints: Int, summonend: Boolean) : Boss(na
         if (healthPoints <= 0) {
             println("Der MiniBoss ist besiegt!")
         }
-    }
-
-    fun minionRandomAction(): Int {
-        println("Name:$name")
-        println("HP:$healthPoints")
-        println()
-        println("$name macht seinen Angriff")
-        println()
-        return randomAction(minionActions)
     }
 }
