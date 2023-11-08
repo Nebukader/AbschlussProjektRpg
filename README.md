@@ -1,5 +1,10 @@
 ## Stargate Adventure
 
+**Das Alte Klassendiagramm**
+![alt text](https://github.com/Nebukader/AbschlussProjektRpg/blob/master/src/main/kotlin/RPG.jpg?raw=true)
+
+**Das Neue Klassendiagramm**
+
 In diesem Spiel hast du eine kleine Gruppe bestehend aus **drei** Helden aus der TV Serie Stargate. Jeder hat bis zu **fünf** Fähigkeiten, die er oder sie im Kampf einsetzen kann.
 
 ---
