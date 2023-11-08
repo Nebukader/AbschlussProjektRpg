@@ -20,10 +20,10 @@ Die Helden konzentrieren ab diesem Punkt **ihren Schaden** zuerst auf den Helfer
 
 **Spielfunktionen**
 
-* Verschiedene Waffen und Fähigkeiten
-* Eine Vielzahl von Feinden
-* Ein Held kann sich **buffen**
-* Der Boss besitzt einen **Debuff**
++   Verschiedene Waffen und Fähigkeiten
++   Eine Vielzahl von Feinden
++   Ein Held kann sich Buffen
++   Der Boss besitzt einen Debuff
 
 ---
 
