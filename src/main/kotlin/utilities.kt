@@ -187,12 +187,6 @@ fun bossFight(bosses: MutableList<Boss>, heroes: MutableList<Hero>) {
     }
 }
 
-/**
- * Diese Funktion enthält die verschiedenen Aktionen, die Jack ausführen kann.
- * Je nach Auswahl des Spielers wird eine bestimmte Aktion ausgeführt und der entsprechende Schaden oder Effekt zurückgegeben.
- * Die Auswahlmöglichkeiten umfassen den Einsatz verschiedener Waffen, Heilung und Buffs.
- * Der Code enthält auch Fehlerbehandlung für den Fall, dass bestimmte Aktionen nicht möglich sind.
- */
 
 
 /**
@@ -203,7 +197,8 @@ fun bossFight(bosses: MutableList<Boss>, heroes: MutableList<Hero>) {
  */
 
 fun actionsJack(): Int {
-    val jack = heroes[0]
+    val index = heroes.filter { it.name == "Jack O Neil" }
+    val jack = index[0]
 
     //Logik für die Debuff überprüfung
     println("${jack.name} ist am Zug")
@@ -289,7 +284,8 @@ fun actionsJack(): Int {
  * Die Funktion gibt den verursachten Schaden zurück.
  */
 fun actionsSamantha(): Int {
-    val sam = heroes[1]
+    val index = heroes.filter { it.name == "Samantha Carter" }
+    val sam = index[0]
 
     //Logik für die Debuff überprüfung
     val originalHealthPoints = sam.healthPoints
@@ -379,7 +375,8 @@ fun actionsSamantha(): Int {
  */
 
 fun actionsTealC(): Int {
-    val tealC = heroes[2]
+    val index = heroes.filter { it.name == "Teal C" }
+    val tealC = index[0]
 
     //Logik für die Debuff überprüfung
     val originalHealthPoints = tealC.healthPoints
