@@ -46,7 +46,7 @@ fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>, 
             // Schleife für die Fußsoldaten
             for (soldier in footSoldiers) {
                 // Zufällige Aktion des Fußsoldaten
-                var damageHero = soldier.randomAction(footSoldierActions)
+                val damageHero = soldier.randomAction(footSoldierActions)
 
                 // Schleife für die Helden
                 val survivingHeroes: MutableList<Hero> = mutableListOf()
@@ -69,7 +69,7 @@ fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>, 
                 ItemUsed = false
             }
         }
-    } catch (e: IndexOutOfBoundsException) {
+    } catch (_: IndexOutOfBoundsException) {
 
     }
 
@@ -246,9 +246,9 @@ fun actionsJack(): Int {
         }
 
         4 -> {
-            val weapon = "Granate"
+            val weapon = "M67"
             val damage = 30
-            Grenade("M67", footSoldiers).use(jack)
+            Grenade(weapon, footSoldiers).use(jack)
             damage
         }
 // Bei der Try Catch habe ich mir hilfe von ChatGPT geholt, um den fehler zu lösen, da ich mich nicht mehr genaur daran erinnerte,
@@ -303,7 +303,7 @@ fun actionsSamantha(): Int {
     println("3 = Kull Disruptor (22) Schaden")
     println("4 = Granate (30 AOE)")
     println("5 = Verband zum Heilen (50)")
-    val choice: Int? = readlnOrNull()?.toIntOrNull() ?: 0
+    val choice: Int = readlnOrNull()?.toIntOrNull() ?: 0
 
     return when (choice) {
         1 -> {
@@ -420,9 +420,9 @@ fun actionsTealC(): Int {
         }
 
         4 -> {
-            val weapon = "Granate"
+            val weapon = "M67"
             val damage = 30
-            Grenade("M67", footSoldiers).use(tealC)
+            Grenade(weapon, footSoldiers).use(tealC)
             damage
         }
 
