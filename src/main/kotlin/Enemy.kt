@@ -12,10 +12,12 @@ class AlkeshBomber : EnemyAction("Alkesh Bomber", 100)
 class Todesgleiter : EnemyAction("Todesgleiter", 80)
 class PlasmaRepeater : EnemyAction("Plasma-Repeater", 30)
 
-class Debuff(private var target: Hero, name: String, damage: Int) : EnemyAction(name, damage) {
-    init {
+class Debuff( name: String, damage: Int) : EnemyAction(name, damage) {
+   /* init {
         applyDebuff(target)
     }
+    */
+
 }
 
 

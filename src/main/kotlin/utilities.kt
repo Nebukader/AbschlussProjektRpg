@@ -147,6 +147,9 @@ fun bossFight(bosses: MutableList<Boss>, heroes: MutableList<Hero>) {
             val randomBoss = bosses.random()
             val randomHero = heroes.random()
             val bossActionDamage = randomBoss.bossRandomAction()
+            if (bossActionDamage == 10){
+                randomHero.debuff = true
+            }
             randomHero.takeDamage(bossActionDamage)
         }
 
@@ -187,7 +190,14 @@ fun bossFight(bosses: MutableList<Boss>, heroes: MutableList<Hero>) {
 fun actionsJack(): Int {
     val jack = heroes[0]
     println("${jack.name} ist am Zug")
-    println("Bitte wählen sie eine Aktion aus")
+    val originalHealthPoints = jack.healthPoints
+    val debuffHealthPoints: Int = originalHealthPoints / 100 * 10
+    if (jack.debuff == true) {
+        println("Du wurdest mit Naniten infiziert und verlierst jede Runde 10% Lebenspunkte")
+        jack.healthPoints -= debuffHealthPoints
+        println("Du wirst schwächer und verlierst $debuffHealthPoints Lebenspunkte")
+    }
+        println("Bitte wählen sie eine Aktion aus")
     println("1 = P90- Maschinenpistole (15) Schaden")
     println("2 = Anfeuern (20% Health Buff)")
     println("3 = Zat’nik’tel (25) Schaden")

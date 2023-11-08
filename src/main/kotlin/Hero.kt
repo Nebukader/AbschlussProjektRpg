@@ -33,20 +33,6 @@ fun printInfoList(hero: MutableList<Hero>) {
 class Soldier(name: String, healthPoints: Int, debuff: Boolean) : Hero(name, healthPoints, debuff) {
     override fun action(weaponName: String, damage: Int): Int {
 
-        val originalHealthPoints = healthPoints
-        val debuffHealthPoints: Int = originalHealthPoints / 100 * 10
-        if (debuff == true) {
-            println("Du wurdest mit Naniten infiziert und verlierst jede Runde 10% Lebenspunkte")
-            healthPoints -= debuffHealthPoints
-            println("Du wirst schwächer und verlierst $debuffHealthPoints Lebenspunkte")
-
-            if (healthPoints < originalHealthPoints * 0.2) {
-                debuff = false
-            }
-            println("Du bist nicht mehr infiziert, deine Lebenspunkte betragen aber nur noch: ${healthPoints} Lebenspunkte")
-        }
-
-
         println("Der Angriff erfolgt $name greift mit seiner $weaponName an und verursacht $damage Schadenspunkte")
         return damage
     }
