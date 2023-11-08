@@ -96,4 +96,14 @@ open class Minion(name: String, healthPoints: Int, summonend: Boolean) : Boss(na
             println("Der MiniBoss ist besiegt!")
         }
     }
+
+    fun minionRandomAction(): Int {
+        println()
+        println("Name:$name")
+        println("HP:$healthPoints")
+        println()
+        println("$name macht seinen Angriff")
+        println()
+        return randomAction(minionActions)
+    }
 }
