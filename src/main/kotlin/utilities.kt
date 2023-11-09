@@ -83,6 +83,7 @@ fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>, 
     } else {
         // Ansonsten sind noch Fußsoldaten übrig, die fliehen
         println("SG-1 hat die Gegner in die Flucht geschlagen, doch der Frieden hält nicht lange an...")
+        println()
         bossFight(bosses, heroes)
     }
 }
@@ -164,6 +165,7 @@ fun bossFight(bosses: MutableList<Boss>, heroes: MutableList<Hero>) {
                     randomHero.debuff = true
                 }
                 randomHero.takeDamage(bossActionDamage)
+                print("-------------------------------")
             }
             // Überprüfen, ob ein Boss-Gegner besiegt wurde
             bosses.removeAll { it.healthPoints <= 0 }
