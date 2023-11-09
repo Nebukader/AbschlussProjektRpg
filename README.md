@@ -27,7 +27,7 @@ Die Helden konzentrieren ab diesem Punkt **ihren Schaden** zuerst auf den Helfer
 **Spielfunktionen**
 
 +   Verschiedene Waffen und Fähigkeiten
-+   Eine Vielzahl von Feinden
++   Es wird gegen TrashMobs vor dem Boss Kampf gegkämpft
 +   Ein Held kann sich Buffen
 +   Der Boss besitzt einen Debuff
 
