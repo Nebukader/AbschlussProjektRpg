@@ -95,7 +95,7 @@ fun bossFight(bosses: MutableList<Boss>, heroes: MutableList<Hero>) {
     println("Baal (Bosskampf) erscheint nachdem die Jaffa Krieger nutzlos gewesen sind")
     val originalHealthPoints = BossBaal.healthPoints
 
-    if (heroes.isEmpty() || bosses.isEmpty()) {
+    if (heroes.isEmpty() && bosses.isEmpty()) {
         // Überprüfe, ob entweder Helden oder Bosse leer sind, und beende den Bosskampf
         println("Bosskampf beendet")
         return
