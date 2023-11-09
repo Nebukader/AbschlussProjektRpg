@@ -29,6 +29,7 @@ open class Enemy(var name: String, var healthPoints: Int) {
         val randomAttacks = attacks.random()
         val actionName = randomAttacks.name
         println("Der Feind $enemyName greift mit $actionName an und verursacht ${randomAttacks.damage} Schadenspunkte")
+
         return randomAttacks.damage
     }
 

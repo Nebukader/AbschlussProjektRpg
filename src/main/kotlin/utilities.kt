@@ -13,6 +13,7 @@ fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>, 
 
         while (footSoldiers.isNotEmpty()) {
             println("Die Runde beginnt Runde")
+            println()
 
             // Schleife für die Helden
             for (hero in heroes) {
@@ -36,6 +37,7 @@ fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>, 
                 // Fußsoldat erleidet Schaden
                 selectedFootSoldier.takeDamage(damage)
                 println("Der Jaffa ${selectedFootSoldier.name} erleidet $damage Schadenspunkte und hat noch ${selectedFootSoldier.healthPoints} HP")
+                println()
 
                 // Wenn der Fußsoldat keine Lebenspunkte mehr hat, wird er entfernt
                 if (selectedFootSoldier.healthPoints <= 0) {
@@ -54,6 +56,7 @@ fun gameplay(footSoldiers: MutableList<FootSoldier>, heroes: MutableList<Hero>, 
 
                 // Ein zufälliger Held erleidet Schaden
                 heroes.random().takeDamage(damageHero)
+                println("--------------------------------------")
 
                 for (hero in heroes) {
                     if (hero.healthPoints > 0) {
